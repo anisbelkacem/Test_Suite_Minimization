@@ -268,6 +268,19 @@
                         <param>de.uni_passau.fim.se2.sbse.suite_minimisation.utils.*</param>
                     </targetClasses>
                     <excludedClasses>
+                        <param>de.uni_passau.fim.se2.sbse.suite_minimisation.algorithms.GeneticAlgorithm</param>
+                        <param>de.uni_passau.fim.se2.sbse.suite_minimisation.algorithms.SearchAlgorithm</param>
+
+                        <param>de.uni_passau.fim.se2.sbse.suite_minimisation.chromosomes.Chromosome</param>
+                        <param>de.uni_passau.fim.se2.sbse.suite_minimisation.chromosomes.ChromosomeGenerator</param>
+
+                        <param>de.uni_passau.fim.se2.sbse.suite_minimisation.mutation.Mutation</param>
+                        <param>de.uni_passau.fim.se2.sbse.suite_minimisation.crossover.Crossover</param>
+
+                        <param>de.uni_passau.fim.se2.sbse.suite_minimisation.fitness_functions.FitnessFunction</param>
+                        <param>de.uni_passau.fim.se2.sbse.suite_minimisation.fitness_functions.MaximizingFitnessFunction</param>
+                        <param>de.uni_passau.fim.se2.sbse.suite_minimisation.fitness_functions.MinimizingFitnessFunction</param>
+
                         <param>de.uni_passau.fim.se2.sbse.suite_minimisation.utils.CoverageTracker</param>
                         <param>de.uni_passau.fim.se2.sbse.suite_minimisation.utils.Pair</param>
                         <param>de.uni_passau.fim.se2.sbse.suite_minimisation.utils.SelfTyped</param>
