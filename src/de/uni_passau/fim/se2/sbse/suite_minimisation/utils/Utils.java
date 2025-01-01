@@ -90,11 +90,12 @@ public class Utils {
         for (Chromosome c : goodFront) {
             double currentF1 = f1.applyAsDouble(c);
             double currentF2 = f2.applyAsDouble(c);
-     
-            double width = currentF1 - lastF1;
-            double height = r2 - currentF2;
-            if (width > 0 && height > 0) hypervolume += width * height;
-            lastF1 = currentF1; 
+            if(currentF1>0 && currentF1<1 && currentF2>0 && currentF2<1) { 
+                double width = currentF1 - lastF1;
+                double height = r2 - currentF2;
+                if (width > 0 && height > 0) hypervolume += width * height;
+                lastF1 = currentF1;
+            }
         }
         return hypervolume;
      }
