@@ -38,12 +38,14 @@ public class RandomSearch<T extends Chromosome<T>> implements GeneticAlgorithm<T
         stoppingCondition.notifySearchStarted();
         double MutationRate = random.nextDouble();
         double crossoverRate = random.nextDouble();
+        BiMutation mutation = new BiMutation(MutationRate); 
+        BiCrossover crossover = new BiCrossover(crossoverRate); 
         int randomSize = random.nextInt(); 
         int maxIterations = 10;
         int currentIteration = 0;
 
         while (!stoppingCondition.searchMustStop() && currentIteration < maxIterations) {
-            T randomChromosome = generateRandomChromosome(5,MutationRate,crossoverRate);
+            T randomChromosome = generateRandomChromosome(5, mutation,crossover);
             stoppingCondition.notifyFitnessEvaluation();
             updateParetoFront(paretoFront, randomChromosome);
             currentIteration++;
@@ -51,9 +53,7 @@ public class RandomSearch<T extends Chromosome<T>> implements GeneticAlgorithm<T
         return paretoFront;
     }
     @SuppressWarnings("unchecked")
-    private T generateRandomChromosome(int size,double MutationRate,double crossoverRate) {
-        BiMutation mutation = new BiMutation(MutationRate); 
-        BiCrossover crossover = new BiCrossover(crossoverRate); 
+    private T generateRandomChromosome(int size,BiMutation mutation,BiCrossover crossover) {
         return (T) BiChromosome.generateRandomChromosome(size ,mutation, crossover);
     }
 
