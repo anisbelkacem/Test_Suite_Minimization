@@ -73,11 +73,6 @@ public class Utils {
         }
         List<Chromosome> sortedFront = new ArrayList<>(front);
         sortedFront.sort((c1, c2) -> {
-            double f2_1 = f2.applyAsDouble(c1);
-            double f2_2 = f2.applyAsDouble(c2);
-            if (f2_1 != f2_2) {
-                return Double.compare(f2_2, f2_1); 
-            }
             double f1_1 = f1.applyAsDouble(c1);
             double f1_2 = f1.applyAsDouble(c2);
             return Double.compare(f1_2, f1_1); 
