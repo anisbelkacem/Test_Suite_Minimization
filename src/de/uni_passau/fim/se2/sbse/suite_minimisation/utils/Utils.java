@@ -60,16 +60,15 @@ public class Utils {
      * @implSpec In the implementation of this method you might need to cast or use raw types, too.
      */
 
-     @SuppressWarnings({"rawtypes", "unchecked"})
+    @SuppressWarnings({"rawtypes", "unchecked"})
     public static double computeHyperVolume(
             final List front,
             final FitnessFunction f1, // Maximization function (coverage)
             final FitnessFunction f2, // Minimization function (size)
-            final double r1, 
-            final double r2) 
+            final double r1, // Reference point for f1
+            final double r2) // Reference point for f2
             throws IllegalArgumentException {
-     
-         
+
         Collections.sort(front, new Comparator() {
             @Override
             public int compare(Object o1, Object o2) {
@@ -78,17 +77,20 @@ public class Utils {
                 return Double.compare(value1, value2);
             }
         });
+
         double hyperVolume = 0.0;
         double lastY = r2; 
+
         for (Object solution : front) {
             if (solution == null) {
                 continue; 
             }
             double x = f1.applyAsDouble(solution); // Maximization value (coverage)
             double y = f2.applyAsDouble(solution); // Minimization value (size)
+
             if (y < lastY) { 
                 hyperVolume += (x - r1) * (lastY - y);
-                lastY = y; 
+                lastY = y;
             }
         }
         return hyperVolume;
