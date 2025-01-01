@@ -15,12 +15,12 @@ public class BiChromosome extends Chromosome<BiChromosome> {
 
     public BiChromosome(List<Integer> testCases, Mutation<BiChromosome> mutation, Crossover<BiChromosome> crossover) {
         super(mutation, crossover);
-        this.testCases = new ArrayList<>(testCases);
+        this.testCases = testCases;
     }
 
     public BiChromosome(BiChromosome other) {
         super(other);
-        this.testCases = new ArrayList<>(other.testCases);
+        this.testCases = other.testCases;
     }
 
     public static BiChromosome generateRandomChromosome(Mutation<BiChromosome> mutation, Crossover<BiChromosome> crossover) {
