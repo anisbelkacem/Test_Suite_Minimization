@@ -71,7 +71,7 @@ public class Utils {
         if (front == null || front.isEmpty()) {
             return 0;
         }
-        List<Chromosome> goodFront = new ArrayList<>(front);
+        List<Object> goodFront = new ArrayList<>(front);
         goodFront.sort((c1, c2) -> {
         double f1_1 = f1.applyAsDouble(c1);
         double f1_2 = f1.applyAsDouble(c2);
@@ -87,15 +87,17 @@ public class Utils {
         double hypervolume = 0.0;
         double lastF1 = 0.0;
      
-        for (Chromosome c : goodFront) {
+        for (Object c : goodFront) {
             double currentF1 = f1.applyAsDouble(c);
             double currentF2 = f2.applyAsDouble(c);
-            if(currentF1>0 && currentF1<1 && currentF2>0 && currentF2<1) { 
-                double width = currentF1 - lastF1;
-                double height = r2 - currentF2;
-                if (width > 0 && height > 0) hypervolume += width * height;
-                lastF1 = currentF1;
+            if (currentF1 < 0 || currentF1 > 1 || currentF2 < 0 || currentF2 > 1) {
+                continue;
             }
+            double width = currentF1 - lastF1;
+            double height = r2 - currentF2;
+            if (width > 0 && height > 0) hypervolume += width * height;
+            lastF1 = currentF1;
+            
         }
         return hypervolume;
      }
