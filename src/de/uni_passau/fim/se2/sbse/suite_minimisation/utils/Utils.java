@@ -95,16 +95,13 @@ public class Utils {
     
         for (Chromosome c : sortedFront) {
             double f1Val = f1.applyAsDouble(c);
-            double f2Val = f2.applyAsDouble(c);
-    
-            if (f1Val <= lastF1 && f2Val >= lastF2) {
-                
-                double volume = (lastF1 - f1Val) * (f2Val - lastF2);
-                hypervolume += volume;
+            double f2Val = f2.applyAsDouble(c); 
+            double volume = Math.abs(lastF1 - f1Val) * Math.abs(f2Val - lastF2);
+            hypervolume += volume;
 
-                lastF1 = f1Val;
-                lastF2 = f2Val;
-            }
+            lastF1 = f1Val;
+            lastF2 = f2Val;
+            
         }
     
         return hypervolume;
