@@ -75,13 +75,12 @@ public class Utils {
         goodFront.sort((c1, c2) -> {
         double f1_1 = f1.applyAsDouble(c1);
         double f1_2 = f1.applyAsDouble(c2);
-        if (f1_1 != f1_2) {
-            return Double.compare(f1_2, f1_1);
+        if (f1_1 > f1_2) {
+            return Double.compare(f1_1, f1_2);
         }  
         double f2_1 = f2.applyAsDouble(c1);
         double f2_2 = f2.applyAsDouble(c2);
         return Double.compare(f2_2, f2_1); 
-            
     });
      
         double hypervolume = 0.0;
@@ -97,9 +96,8 @@ public class Utils {
             double height = r2 - currentF2;
             if (width > 0 && height > 0) hypervolume += width * height;
             lastF1 = currentF1;
-            
         }
-        return hypervolume + ((r1 - lastF1) > 0 ? (r1 - lastF1) * r2 : 0);
+        return hypervolume;
      }
      
      
