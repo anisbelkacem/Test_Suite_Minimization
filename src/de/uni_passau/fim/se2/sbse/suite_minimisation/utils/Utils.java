@@ -99,7 +99,7 @@ public class Utils {
             lastF1 = currentF1;
             
         }
-        return hypervolume;
+        return hypervolume + ((r1 - lastF1) > 0 ? (r1 - lastF1) * r2 : 0);
      }
      
      
