@@ -84,7 +84,7 @@ public class Utils {
 
                 double fitness2_1 = f2.applyAsDouble(c1);
                 double fitness2_2 = f2.applyAsDouble(c2);
-                return Double.compare(fitness2_1, fitness2_2); 
+                return Double.compare(fitness2_2, fitness2_1); 
             }
         });
         double hypervolume = 0;
