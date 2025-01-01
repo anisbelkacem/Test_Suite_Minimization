@@ -36,28 +36,26 @@ public class RandomSearch<T extends Chromosome<T>> implements GeneticAlgorithm<T
     public List<T> findSolution() {
         List<T> paretoFront = new ArrayList<>();
         stoppingCondition.notifySearchStarted();
-        int maxIterations = 10;
+        double MutationRate = random.nextDouble();
+        double crossoverRate = random.nextDouble();
+        int randomSize = random.nextInt(); 
+        int maxIterations = 50;
         int currentIteration = 0;
 
         while (!stoppingCondition.searchMustStop() && currentIteration < maxIterations) {
-            T randomChromosome = generateRandomChromosome();
+            T randomChromosome = generateRandomChromosome(randomSize,MutationRate,crossoverRate);
             stoppingCondition.notifyFitnessEvaluation();
             updateParetoFront(paretoFront, randomChromosome);
             currentIteration++;
         }
         return paretoFront;
     }
-
-
     @SuppressWarnings("unchecked")
-    private T generateRandomChromosome() {
-        double MutationRate = random.nextDouble();
-        double crossoverRate = random.nextDouble();
+    private T generateRandomChromosome(int size,double MutationRate,double crossoverRate) {
         BiMutation mutation = new BiMutation(MutationRate); 
         BiCrossover crossover = new BiCrossover(crossoverRate); 
-        return (T) BiChromosome.generateRandomChromosome(mutation, crossover);
+        return (T) BiChromosome.generateRandomChromosome(size ,mutation, crossover);
     }
-
 
     private void updateParetoFront(List<T> paretoFront, T newChromosome) {
   

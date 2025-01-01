@@ -23,12 +23,11 @@ public class BiChromosome extends Chromosome<BiChromosome> {
         this.testCases = new ArrayList<>(other.testCases);
     }
 
-    public static BiChromosome generateRandomChromosome(Mutation<BiChromosome> mutation, Crossover<BiChromosome> crossover) {
+    public static BiChromosome generateRandomChromosome(int size, Mutation<BiChromosome> mutation, Crossover<BiChromosome> crossover) {
         Random random = new Random();
-        //int randomSize = random.nextInt(); 
         List<Integer> testCases = new ArrayList<>();
 
-        for (int i = 0; i < 20; i++) {
+        for (int i = 0; i < size; i++) {
             testCases.add(random.nextBoolean() ? 1 : 0);
         }
 
