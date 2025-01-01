@@ -39,11 +39,11 @@ public class RandomSearch<T extends Chromosome<T>> implements GeneticAlgorithm<T
         double MutationRate = random.nextDouble();
         double crossoverRate = random.nextDouble();
         int randomSize = random.nextInt(); 
-        int maxIterations = 0;
+        int maxIterations = 10;
         int currentIteration = 0;
 
         while (!stoppingCondition.searchMustStop() && currentIteration < maxIterations) {
-            T randomChromosome = generateRandomChromosome(randomSize,MutationRate,crossoverRate);
+            T randomChromosome = generateRandomChromosome(5,MutationRate,crossoverRate);
             stoppingCondition.notifyFitnessEvaluation();
             updateParetoFront(paretoFront, randomChromosome);
             currentIteration++;
