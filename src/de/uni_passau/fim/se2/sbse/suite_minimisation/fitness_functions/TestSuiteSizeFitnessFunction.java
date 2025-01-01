@@ -14,6 +14,9 @@ public class TestSuiteSizeFitnessFunction implements MinimizingFitnessFunction<B
     public double applyAsDouble(BiChromosome chromosome) {
         int activeTestCases = chromosome.getActiveTestCases().size();
         int totalTestCases = chromosome.getTestCases().size();
+        if (totalTestCases == 0) {
+            return 0.0;  
+        }
         return (double) activeTestCases / totalTestCases; 
     }
 }
