@@ -172,7 +172,7 @@ public class AlgorithmBuilder {
      */
     @SuppressWarnings({ "unchecked", "rawtypes" })
     private GeneticAlgorithm<? extends Chromosome<?>> buildRandomSearch() {
-        return new RandomSearch(stoppingCondition, sizeFF, coverageFF, random);
+        return new RandomSearch(stoppingCondition, sizeFF, coverageFF, numberTestCases, random);
 }
 
 }

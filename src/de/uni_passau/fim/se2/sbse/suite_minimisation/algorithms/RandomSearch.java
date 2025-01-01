@@ -18,17 +18,20 @@ public class RandomSearch<T extends Chromosome<T>> implements GeneticAlgorithm<T
     private final StoppingCondition stoppingCondition;
     private final MinimizingFitnessFunction<T> sizeFF;
     private final MaximizingFitnessFunction<T> coverageFF;
+    private final int numberTestCases;
     private final Random random;
 
     public RandomSearch(
         StoppingCondition stoppingCondition,
         MinimizingFitnessFunction<T> sizeFF,
         MaximizingFitnessFunction<T> coverageFF,
+        int numberTestCases,
         Random random
     ) {
         this.stoppingCondition = stoppingCondition;
         this.sizeFF = sizeFF;
         this.coverageFF = coverageFF;
+        this.numberTestCases = numberTestCases;
         this.random = random;
     }
 
@@ -40,12 +43,11 @@ public class RandomSearch<T extends Chromosome<T>> implements GeneticAlgorithm<T
         double crossoverRate = random.nextDouble();
         BiMutation mutation = new BiMutation(0.1); 
         BiCrossover crossover = new BiCrossover(0.8); 
-        int randomSize = random.nextInt(20)+1; 
-        int maxIterations = 5000;
+        int maxIterations = 1000;
         int currentIteration = 0;
 
         while (!stoppingCondition.searchMustStop() && currentIteration < maxIterations) {
-            T randomChromosome = generateRandomChromosome(randomSize, mutation,crossover);
+            T randomChromosome = generateRandomChromosome(numberTestCases, mutation,crossover);
             stoppingCondition.notifyFitnessEvaluation();
             updateParetoFront(paretoFront, randomChromosome);
             currentIteration++;
