@@ -27,7 +27,6 @@ public class BiChromosome extends Chromosome<BiChromosome> {
         Random random = new Random();
         boolean hasOne = false;
         List<Integer> testCases = new ArrayList<>();
-
         for (int i = 0; i < size; i++) {
             boolean value = random.nextBoolean();
             if (value) {
