@@ -84,7 +84,7 @@ public class Utils {
             
     });
      
-        double hypervolume = 0.0;
+        double hypervolume = r1*r2;
         double lastF1 = r1;
      
         for (Chromosome c : goodFront) {
