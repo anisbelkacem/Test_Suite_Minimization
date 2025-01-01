@@ -64,8 +64,6 @@ public class Utils {
             final FitnessFunction f2,
             final double r1,
             final double r2) throws IllegalArgumentException {
-        
-        // Validate inputs
         if (front == null || front.isEmpty()) {
             throw new IllegalArgumentException("Pareto front cannot be null or empty.");
         }
@@ -73,34 +71,29 @@ public class Utils {
             throw new IllegalArgumentException("Reference point coordinates must be non-negative.");
         }
 
-        // Sort the front by the second objective (f2) in descending order
-        front.sort((o1, o2) -> Double.compare(
-                f2.applyAsDouble((Chromosome) o2),
-                f2.applyAsDouble((Chromosome) o1))
+        List<Chromosome<?>> modifiableFront = new ArrayList<>(front);
+        modifiableFront.sort((o1, o2) -> Double.compare(
+                f2.applyAsDouble((Chromosome<?>) o2),
+                f2.applyAsDouble((Chromosome<?>) o1))
         );
 
         double hyperVolume = 0.0;
-        double previousF1 = r1; // Start with the reference point for f1
-
-        // Iterate through the Pareto front
-        for (Object obj : front) {
-            Chromosome<?> solution = (Chromosome<?>) obj;
+        double previousF1 = r1;
+        for (Object obj : modifiableFront) {
+            if (!(obj instanceof Chromosome<?> solution)) {
+                throw new IllegalArgumentException("All elements in the Pareto front must be Chromosome instances.");
+            }
             double currentF1 = f1.applyAsDouble(solution);
             double currentF2 = f2.applyAsDouble(solution);
 
-            // Compute the area of the dominated region
             double width = previousF1 - currentF1;
             double height = currentF2 - r2;
 
             if (width > 0 && height > 0) {
                 hyperVolume += width * height;
             }
-
-            // Update the previous f1 value for the next iteration
             previousF1 = currentF1;
         }
-
         return hyperVolume;
     }
-
 }
