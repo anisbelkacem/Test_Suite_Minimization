@@ -29,26 +29,20 @@ public class BiMutation implements Mutation<BiChromosome> {
      */
     @Override
     public BiChromosome apply(final BiChromosome parent) {
-        // Create a copy of the parent chromosome to mutate
         BiChromosome offspring = parent.copy();
         Random random = new Random();
-
-        // Mutate each bit with a probability equal to the mutation rate
         for (int i = 0; i < offspring.getTestCases().size(); i++) {
             if (random.nextDouble() < mutationRate) {
-                // Flip the bit: 1 -> 0 or 0 -> 1
+                
                 int currentBit = offspring.getTestCases().get(i);
                 offspring.getTestCases().set(i, currentBit == 1 ? 0 : 1);
             }
-        }
-
-        // Ensure the offspring is valid (at least one bit is 1)
+        } 
         if (offspring.getActiveTestCases().isEmpty()) {
-            // If all bits are 0, randomly flip one bit to 1
+            
             int randomIndex = random.nextInt(offspring.getTestCases().size());
             offspring.getTestCases().set(randomIndex, 1);
         }
-
         return offspring;
     }
 
