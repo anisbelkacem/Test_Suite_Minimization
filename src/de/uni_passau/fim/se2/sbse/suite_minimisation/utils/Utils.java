@@ -63,36 +63,44 @@ public class Utils {
     @SuppressWarnings({"rawtypes", "unchecked"})
     public static double computeHyperVolume(
             final List front,
-            final FitnessFunction f1, // Maximization function (coverage)
-            final FitnessFunction f2, // Minimization function (size)
-            final double r1, // Reference point for f1
-            final double r2) // Reference point for f2
-            throws IllegalArgumentException {
-
-        Collections.sort(front, new Comparator() {
-            @Override
-            public int compare(Object o1, Object o2) {
-                double value1 = f1.applyAsDouble(o1);
-                double value2 = f1.applyAsDouble(o2);
-                return Double.compare(value1, value2);
-            }
-        });
-
-        double hyperVolume = 0.0;
-        double lastY = r2; 
-
-        for (Object solution : front) {
-            if (solution == null) {
-                continue; 
-            }
-            double x = f1.applyAsDouble(solution); // Maximization value (coverage)
-            double y = f2.applyAsDouble(solution); // Minimization value (size)
-
-            if (y < lastY) { 
-                hyperVolume += (x - r1) * (lastY - y);
-                lastY = y;
-            }
+            final FitnessFunction f1,
+            final FitnessFunction f2,
+            final double r1,
+            final double r2) throws IllegalArgumentException {
+        if (front == null || front.isEmpty()) {
+            throw new IllegalArgumentException("Pareto front cannot be null or empty.");
         }
+        if (r1 < 0 || r2 < 0) {
+            throw new IllegalArgumentException("Reference point coordinates must be non-negative.");
+        }
+        List<Chromosome<?>> modifiableFront = new ArrayList<>(front);
+        modifiableFront.sort((o1, o2) -> Double.compare(
+                f2.applyAsDouble((Chromosome<?>) o2),
+                f2.applyAsDouble((Chromosome<?>) o1))
+        );
+    
+        double hyperVolume = 0.0;
+        double previousF1 = r1;
+    
+        for (Object obj : modifiableFront) {
+            if (!(obj instanceof Chromosome<?> solution)) {
+                throw new IllegalArgumentException("All elements in the Pareto front must be Chromosome instances.");
+            }
+            double currentF1 = f1.applyAsDouble(solution);
+            double currentF2 = f2.applyAsDouble(solution);
+            if (currentF1 ==0 || currentF2 == 0) {
+                throw new IllegalArgumentException("Current fitness must cannot be null");
+            }
+            double width = previousF1 - currentF1;
+            double height = currentF2 - r2;
+            if (width > 0 && height > 0) {
+                hyperVolume += width * height;
+            }
+    
+            previousF1 = currentF1; 
+        }
+    
         return hyperVolume;
     }
+     
 }
