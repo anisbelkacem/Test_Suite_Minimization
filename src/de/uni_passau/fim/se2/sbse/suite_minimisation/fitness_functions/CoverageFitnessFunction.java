@@ -33,7 +33,9 @@ public class CoverageFitnessFunction implements MaximizingFitnessFunction<BiChro
                 }
             }
         }
-
+        if (totalLines == 0) {
+            return 0.0;  
+        }
         return (double) coveredLines / totalLines; 
     }
 }
