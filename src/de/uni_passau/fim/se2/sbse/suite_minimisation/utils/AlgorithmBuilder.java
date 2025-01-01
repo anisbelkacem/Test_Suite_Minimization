@@ -100,7 +100,7 @@ public class AlgorithmBuilder {
      * (system-under-test) can be retrieved from the `numberLines` field.
      */
     private MaximizingFitnessFunction<? extends Chromosome<?>> makeTestSuiteCoverageFitnessFunction() {
-        return new CoverageFitnessFunction(coverageMatrix);
+        return new CoverageFitnessFunction(coverageMatrix, numberLines);
     }
 
     public MinimizingFitnessFunction<? extends Chromosome<?>> getSizeFF() {

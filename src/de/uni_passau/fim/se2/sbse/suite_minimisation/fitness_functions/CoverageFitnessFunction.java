@@ -8,6 +8,7 @@ import java.util.List;
 public class CoverageFitnessFunction implements MaximizingFitnessFunction<BiChromosome> {
 
     private final boolean[][] coverageMatrix; 
+    private final int numberLines;
 
     /**
      * Constructor for CoverageFitnessFunction.
@@ -15,14 +16,15 @@ public class CoverageFitnessFunction implements MaximizingFitnessFunction<BiChro
      * @param coverageMatrix the boolean coverage matrix where rows represent test cases
      *                       and columns represent lines of code covered.
      */
-    public CoverageFitnessFunction(boolean[][] coverageMatrix) {
+    public CoverageFitnessFunction(boolean[][] coverageMatrix, int numberLines) {
         this.coverageMatrix = coverageMatrix;
+        this.numberLines = numberLines;
     }
 
     @Override
     public double applyAsDouble(BiChromosome chromosome) {
         List<Integer> activeTestCases = chromosome.getActiveTestCases();
-        int totalLines = coverageMatrix[0].length;
+        int totalLines = numberLines;
         int coveredLines = 0;
 
         for (int line = 0; line < totalLines; line++) {
