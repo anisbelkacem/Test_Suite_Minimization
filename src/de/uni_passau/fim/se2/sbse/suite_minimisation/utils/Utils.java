@@ -62,7 +62,7 @@ public class Utils {
 
     @SuppressWarnings({"rawtypes", "unchecked"})
     public static double computeHyperVolume(
-            final List<Chromosome> front,
+            final List front,
             final FitnessFunction f1,
             final FitnessFunction f2,
             final double r1,
