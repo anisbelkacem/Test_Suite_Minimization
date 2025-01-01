@@ -84,8 +84,8 @@ public class Utils {
             
     });
      
-        double hypervolume = r1*r2;
-        double lastF1 = r1;
+        double hypervolume = 0.0;
+        double lastF1 = 0.0;
      
         for (Chromosome c : goodFront) {
             double currentF1 = f1.applyAsDouble(c);
