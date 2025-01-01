@@ -60,7 +60,7 @@ public class Utils {
      * @implSpec In the implementation of this method you might need to cast or use raw types, too.
      */
 
-    @SuppressWarnings({"rawtypes", "unchecked"})
+     @SuppressWarnings({"rawtypes", "unchecked"})
     public static double computeHyperVolume(
             final List front,
             final FitnessFunction f1,
@@ -71,29 +71,33 @@ public class Utils {
         if (front == null || front.isEmpty()) {
             return 0;
         }
-        List<Chromosome> sortedFront = new ArrayList<>(front);
-        sortedFront.sort((c1, c2) -> {
-            double f1_1 = f1.applyAsDouble(c1);
-            double f1_2 = f1.applyAsDouble(c2);
-            return Double.compare(f1_2, f1_1); 
-        });
-    
+        List<Chromosome> goodFront = new ArrayList<>(front);
+        goodFront.sort((c1, c2) -> {
+        double f1_1 = f1.applyAsDouble(c1);
+        double f1_2 = f1.applyAsDouble(c2);
+        if (f1_1 != f1_2) {
+            return Double.compare(f1_2, f1_1);
+        }  
+        double f2_1 = f2.applyAsDouble(c1);
+        double f2_2 = f2.applyAsDouble(c2);
+        return Double.compare(f2_2, f2_1); 
+            
+    });
+     
         double hypervolume = 0.0;
         double lastF1 = r1;
-    
-        for (Chromosome c : sortedFront) {
+     
+        for (Chromosome c : goodFront) {
             double currentF1 = f1.applyAsDouble(c);
             double currentF2 = f2.applyAsDouble(c);
-    
-            double width = lastF1 - currentF1;
-            double height = currentF2 - r2;
-    
-        hypervolume += Math.abs(width) * Math.abs(height);
-    
+     
+            double width = currentF1 - lastF1;
+            double height = r2 - currentF2;
+            if (width > 0 && height > 0) hypervolume += width * height;
             lastF1 = currentF1; 
         }
         return hypervolume;
-    }
+     }
      
      
      
