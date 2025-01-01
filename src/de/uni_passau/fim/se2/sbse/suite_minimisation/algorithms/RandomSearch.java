@@ -43,14 +43,25 @@ public class RandomSearch<T extends Chromosome<T>> implements GeneticAlgorithm<T
         double crossoverRate = random.nextDouble();
         BiMutation mutation = new BiMutation(MutationRate); 
         BiCrossover crossover = new BiCrossover(crossoverRate); 
-        int maxIterations = 10000;
-        int currentIteration = 0;
+        int foundone=0;
 
         while (!stoppingCondition.searchMustStop() ) {
-            T randomChromosome = generateRandomChromosome(numberTestCases, mutation,crossover);
-            stoppingCondition.notifyFitnessEvaluation();
-            updateParetoFront(paretoFront, randomChromosome);
-            currentIteration++;
+            foundone=0;
+            while (foundone==0) {
+                foundone=1;
+                T randomChromosome = generateRandomChromosome(numberTestCases, mutation,crossover);
+                stoppingCondition.notifyFitnessEvaluation();
+                for (T chromosome : paretoFront) {
+                    if (dominates(chromosome, randomChromosome)) {
+                        foundone=0;break; //newchromosome is dominated
+                    }
+                }
+                if(foundone==1){
+                    stoppingCondition.notifyFitnessEvaluation();
+                    paretoFront.removeIf(chromosome -> dominates(randomChromosome, chromosome));
+                    paretoFront.add(randomChromosome);
+                }
+            }
         }
         return paretoFront;
     }
@@ -63,7 +74,7 @@ public class RandomSearch<T extends Chromosome<T>> implements GeneticAlgorithm<T
   
         for (T chromosome : paretoFront) {
             if (dominates(chromosome, newChromosome)) {
-                return; 
+                return; //newchromosome is dominated
             }
         }
         paretoFront.removeIf(chromosome -> dominates(newChromosome, chromosome));
