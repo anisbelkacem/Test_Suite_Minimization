@@ -178,6 +178,7 @@ public class Main implements Callable<Integer> {
     List<String> getTestCaseNamesFrom(final Chromosome<?> testSuiteChromosome) {
         BiChromosome chromosome = (BiChromosome) testSuiteChromosome;
         List<Integer> activeTestCaseIndices = chromosome.getActiveTestCases();
+        
         List<String> activeTestCaseNames = new ArrayList<>();
 
         for (int index : activeTestCaseIndices) {

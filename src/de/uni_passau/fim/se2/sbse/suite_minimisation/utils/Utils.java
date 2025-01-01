@@ -57,7 +57,7 @@ public class Utils {
      * let me express this in any other way :(
      * @implSpec In the implementation of this method you might need to cast or use raw types, too.
      */
-    @SuppressWarnings({"rawtypes", "unchecked"});
+    @SuppressWarnings({"rawtypes", "unchecked"})
     public static double computeHyperVolume(
             final List front,
             final FitnessFunction f1,
@@ -65,26 +65,30 @@ public class Utils {
             final double r1,
             final double r2) throws IllegalArgumentException {
         
+        // Validate inputs
         if (front == null || front.isEmpty()) {
             throw new IllegalArgumentException("Pareto front cannot be null or empty.");
         }
         if (r1 < 0 || r2 < 0) {
             throw new IllegalArgumentException("Reference point coordinates must be non-negative.");
         }
+
+        // Sort the front by the second objective (f2) in descending order
         front.sort((o1, o2) -> Double.compare(
                 f2.applyAsDouble((Chromosome) o2),
                 f2.applyAsDouble((Chromosome) o1))
         );
 
         double hyperVolume = 0.0;
-        double previousF1 = r1;
+        double previousF1 = r1; // Start with the reference point for f1
 
+        // Iterate through the Pareto front
         for (Object obj : front) {
             Chromosome<?> solution = (Chromosome<?>) obj;
             double currentF1 = f1.applyAsDouble(solution);
             double currentF2 = f2.applyAsDouble(solution);
 
-
+            // Compute the area of the dominated region
             double width = previousF1 - currentF1;
             double height = currentF2 - r2;
 
@@ -92,6 +96,7 @@ public class Utils {
                 hyperVolume += width * height;
             }
 
+            // Update the previous f1 value for the next iteration
             previousF1 = currentF1;
         }
 
