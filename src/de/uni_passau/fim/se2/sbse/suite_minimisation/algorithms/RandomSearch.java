@@ -36,7 +36,7 @@ public class RandomSearch<T extends Chromosome<T>> implements GeneticAlgorithm<T
     public List<T> findSolution() {
         List<T> paretoFront = new ArrayList<>();
         stoppingCondition.notifySearchStarted();
-        int maxIterations = 1000;
+        int maxIterations = 100;
         int currentIteration = 0;
 
         while (!stoppingCondition.searchMustStop() && currentIteration < maxIterations) {
