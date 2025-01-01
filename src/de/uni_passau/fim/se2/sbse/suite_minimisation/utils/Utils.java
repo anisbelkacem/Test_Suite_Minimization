@@ -75,7 +75,7 @@ public class Utils {
         goodFront.sort((c1, c2) -> {
         double f1_1 = f1.applyAsDouble(c1);
         double f1_2 = f1.applyAsDouble(c2);
-        if (f1_1 > f1_2) {
+        if (f1_1 != f1_2) {
             return Double.compare(f1_1, f1_2);
         }  
         double f2_1 = f2.applyAsDouble(c1);
