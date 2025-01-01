@@ -28,7 +28,7 @@ public class BiChromosome extends Chromosome<BiChromosome> {
         //int randomSize = random.nextInt(); 
         List<Integer> testCases = new ArrayList<>();
 
-        for (int i = 0; i < (int)testCases.size(); i++) {
+        for (int i = 0; i < 20; i++) {
             testCases.add(random.nextBoolean() ? 1 : 0);
         }
 
