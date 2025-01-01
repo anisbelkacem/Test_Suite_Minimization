@@ -44,7 +44,6 @@ public class RandomSearch<T extends Chromosome<T>> implements GeneticAlgorithm<T
         BiMutation mutation = new BiMutation(MutationRate); 
         BiCrossover crossover = new BiCrossover(crossoverRate); 
         
-        stoppingCondition.notifySearchStarted();
         while (!stoppingCondition.searchMustStop() ) {
             T randomChromosome = generateRandomChromosome(numberTestCases, mutation,crossover);
             updateParetoFront(paretoFront, randomChromosome);
