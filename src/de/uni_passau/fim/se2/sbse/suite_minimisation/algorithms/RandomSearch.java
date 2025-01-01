@@ -40,8 +40,8 @@ public class RandomSearch<T extends Chromosome<T>> implements GeneticAlgorithm<T
         double crossoverRate = random.nextDouble();
         BiMutation mutation = new BiMutation(MutationRate); 
         BiCrossover crossover = new BiCrossover(crossoverRate); 
-        int randomSize = random.nextInt(); 
-        int maxIterations = 10;
+        int randomSize = random.nextInt(10)+1; 
+        int maxIterations = 1000;
         int currentIteration = 0;
 
         while (!stoppingCondition.searchMustStop() && currentIteration < maxIterations) {
