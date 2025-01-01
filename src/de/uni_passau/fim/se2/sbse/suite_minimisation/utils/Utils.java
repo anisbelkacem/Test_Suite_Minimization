@@ -60,47 +60,45 @@ public class Utils {
      * @implSpec In the implementation of this method you might need to cast or use raw types, too.
      */
 
-     @SuppressWarnings({"rawtypes", "unchecked"})
-     public static double computeHyperVolume(
-             final List front,
-             final FitnessFunction f1,
-             final FitnessFunction f2,
-             final double r1,
-             final double r2) throws IllegalArgumentException {
-     
-         if (front == null || front.isEmpty()) {
-             return 0;
-         }
-         List<Chromosome> sortedFront = new ArrayList<>(front);
-         sortedFront.sort((c1, c2) -> {
-             double f2_1 = f2.applyAsDouble(c1);
-             double f2_2 = f2.applyAsDouble(c2);
-             if (f2_1 != f2_2) {
-                 return Double.compare(f2_2, f2_1); 
-             }
-             double f1_1 = f1.applyAsDouble(c1);
-             double f1_2 = f1.applyAsDouble(c2);
-             return Double.compare(f1_2, f1_1); 
-         });
-     
-         double hypervolume = 0.0;
-         double lastF1 = r1;
-     
-         for (Chromosome c : sortedFront) {
-             double currentF1 = f1.applyAsDouble(c);
-             double currentF2 = f2.applyAsDouble(c);
-     
-             double width = lastF1 - currentF1;
-             double height = currentF2 - r2;
-     
-             if (width > 0 && height > 0) {
-                 hypervolume += width * height;
-             }
-     
-             lastF1 = currentF1; 
-         }
-         return hypervolume;
-     }
+    @SuppressWarnings({"rawtypes", "unchecked"})
+    public static double computeHyperVolume(
+            final List front,
+            final FitnessFunction f1,
+            final FitnessFunction f2,
+            final double r1,
+            final double r2) throws IllegalArgumentException {
+    
+        if (front == null || front.isEmpty()) {
+            return 0;
+        }
+        List<Chromosome> sortedFront = new ArrayList<>(front);
+        sortedFront.sort((c1, c2) -> {
+            double f2_1 = f2.applyAsDouble(c1);
+            double f2_2 = f2.applyAsDouble(c2);
+            if (f2_1 != f2_2) {
+                return Double.compare(f2_2, f2_1); 
+            }
+            double f1_1 = f1.applyAsDouble(c1);
+            double f1_2 = f1.applyAsDouble(c2);
+            return Double.compare(f1_2, f1_1); 
+        });
+    
+        double hypervolume = 0.0;
+        double lastF1 = r1;
+    
+        for (Chromosome c : sortedFront) {
+            double currentF1 = f1.applyAsDouble(c);
+            double currentF2 = f2.applyAsDouble(c);
+    
+            double width = lastF1 - currentF1;
+            double height = currentF2 - r2;
+    
+        hypervolume += Math.abs(width) * Math.abs(height);
+    
+            lastF1 = currentF1; 
+        }
+        return hypervolume;
+    }
      
      
      
