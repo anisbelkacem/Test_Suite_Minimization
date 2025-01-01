@@ -172,7 +172,7 @@ public class AlgorithmBuilder {
      */
     @SuppressWarnings({ "unchecked", "rawtypes" })
     private GeneticAlgorithm<? extends Chromosome<?>> buildRandomSearch() {
-        throw new UnsupportedOperationException("Implement me!");
+        return new RandomSearch(stoppingCondition, sizeFF, coverageFF, random);
 }
 
 }

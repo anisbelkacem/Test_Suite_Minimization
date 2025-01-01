@@ -33,16 +33,21 @@ public class RandomSearch<T extends Chromosome<T>> implements GeneticAlgorithm<T
     }
 
     @Override
-    public List<T> findSolution() {
-        List<T> paretoFront = new ArrayList<>();
-        stoppingCondition.notifySearchStarted();
-        while (!stoppingCondition.searchMustStop()) {
-            T randomChromosome = generateRandomChromosome();
-            stoppingCondition.notifyFitnessEvaluation();
-            updateParetoFront(paretoFront, randomChromosome);
-        }
-        return paretoFront;
+public List<T> findSolution() {
+    List<T> paretoFront = new ArrayList<>();
+    stoppingCondition.notifySearchStarted();
+    int maxIterations = 100;
+    int currentIteration = 0;
+
+    while (!stoppingCondition.searchMustStop() && currentIteration < maxIterations) {
+        T randomChromosome = generateRandomChromosome();
+        stoppingCondition.notifyFitnessEvaluation();
+        updateParetoFront(paretoFront, randomChromosome);
+        currentIteration++;
     }
+    return paretoFront;
+}
+
 
     @SuppressWarnings("unchecked")
     private T generateRandomChromosome() {
@@ -64,7 +69,7 @@ public class RandomSearch<T extends Chromosome<T>> implements GeneticAlgorithm<T
         paretoFront.removeIf(chromosome -> dominates(newChromosome, chromosome));
         paretoFront.add(newChromosome);
     }
-    
+
     private boolean dominates(T c1, T c2) {
         double f1c1 = sizeFF.applyAsDouble(c1);
         double f2c1 = coverageFF.applyAsDouble(c1);
