@@ -36,7 +36,7 @@ public interface FitnessFunction<C> extends ToDoubleFunction<C> {
      * @throws NullPointerException if {@code null} is given
      */
     @Override
-    double applyAsDouble(final C c) throws NullPointerException;
+    double applyAsDouble(final C  c) throws NullPointerException;
 
     /**
      * Returns a composed fitness function that first applies this function to its input, and then

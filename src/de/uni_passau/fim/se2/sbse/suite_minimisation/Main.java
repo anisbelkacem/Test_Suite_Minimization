@@ -3,6 +3,7 @@ package de.uni_passau.fim.se2.sbse.suite_minimisation;
 import de.uni_passau.fim.se2.sbse.suite_minimisation.algorithms.GeneticAlgorithm;
 import de.uni_passau.fim.se2.sbse.suite_minimisation.algorithms.SearchAlgorithmType;
 import de.uni_passau.fim.se2.sbse.suite_minimisation.chromosomes.Chromosome;
+import de.uni_passau.fim.se2.sbse.suite_minimisation.chromosomes.BiChromosome;
 import de.uni_passau.fim.se2.sbse.suite_minimisation.fitness_functions.FitnessFunction;
 import de.uni_passau.fim.se2.sbse.suite_minimisation.stopping_conditions.MaxFitnessEvaluations;
 import de.uni_passau.fim.se2.sbse.suite_minimisation.stopping_conditions.StoppingCondition;
@@ -175,8 +176,17 @@ public class Main implements Callable<Integer> {
      */
     @SuppressWarnings("unchecked")
     List<String> getTestCaseNamesFrom(final Chromosome<?> testSuiteChromosome) {
-        throw new UnsupportedOperationException("Implement me!");
+        BiChromosome chromosome = (BiChromosome) testSuiteChromosome;
+        List<Integer> activeTestCaseIndices = chromosome.getActiveTestCases();
+        List<String> activeTestCaseNames = new ArrayList<>();
+
+        for (int index : activeTestCaseIndices) {
+            activeTestCaseNames.add(testCases[index]);
+        }
+
+        return activeTestCaseNames;
     }
+
 
     /**
      * Takes the given test suite chromosome as input and returns its relative/normalized coverage.
@@ -192,8 +202,11 @@ public class Main implements Callable<Integer> {
      */
     @SuppressWarnings("unchecked")
     double getCoverageOf(final Chromosome<?> testSuiteChromosome) {
-        throw new UnsupportedOperationException("Implement me!");
+        BiChromosome chromosome = (BiChromosome) testSuiteChromosome;
+        FitnessFunction<BiChromosome> coverageFF = (FitnessFunction<BiChromosome>) algorithmBuilder.getCoverageFF();
+        return coverageFF.applyAsDouble(chromosome);
     }
+
 
     /**
      * Takes the given test suite chromosome as input and returns its relative/normalized size.
@@ -209,8 +222,11 @@ public class Main implements Callable<Integer> {
      */
     @SuppressWarnings("unchecked")
     double getSizeOf(final Chromosome<?> testSuiteChromosome) {
-        throw new UnsupportedOperationException("Implement me!");
+        BiChromosome chromosome = (BiChromosome) testSuiteChromosome;
+        FitnessFunction<BiChromosome> sizeFF = (FitnessFunction<BiChromosome>) algorithmBuilder.getSizeFF();
+        return sizeFF.applyAsDouble(chromosome);
     }
+
 
 
     /**

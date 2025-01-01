@@ -1,5 +1,6 @@
 package de.uni_passau.fim.se2.sbse.suite_minimisation.utils;
 
+import de.uni_passau.fim.se2.sbse.suite_minimisation.chromosomes.Chromosome;
 import de.uni_passau.fim.se2.sbse.suite_minimisation.fitness_functions.FitnessFunction;
 
 import java.io.File;
@@ -62,8 +63,39 @@ public class Utils {
             final FitnessFunction f1,
             final FitnessFunction f2,
             final double r1,
-            final double r2)
-            throws IllegalArgumentException {
-        throw new UnsupportedOperationException("Implement me!");
+            final double r2) throws IllegalArgumentException {
+        
+        if (front == null || front.isEmpty()) {
+            throw new IllegalArgumentException("Pareto front cannot be null or empty.");
+        }
+        if (r1 < 0 || r2 < 0) {
+            throw new IllegalArgumentException("Reference point coordinates must be non-negative.");
+        }
+        front.sort((o1, o2) -> Double.compare(
+                f2.applyAsDouble((Chromosome) o2),
+                f2.applyAsDouble((Chromosome) o1))
+        );
+
+        double hyperVolume = 0.0;
+        double previousF1 = r1;
+
+        for (Object obj : front) {
+            Chromosome<?> solution = (Chromosome<?>) obj;
+            double currentF1 = f1.applyAsDouble(solution);
+            double currentF2 = f2.applyAsDouble(solution);
+
+
+            double width = previousF1 - currentF1;
+            double height = currentF2 - r2;
+
+            if (width > 0 && height > 0) {
+                hyperVolume += width * height;
+            }
+
+            previousF1 = currentF1;
+        }
+
+        return hyperVolume;
     }
+
 }

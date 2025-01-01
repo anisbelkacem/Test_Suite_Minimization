@@ -1,11 +1,21 @@
 package de.uni_passau.fim.se2.sbse.suite_minimisation.utils;
 
 import de.uni_passau.fim.se2.sbse.suite_minimisation.algorithms.GeneticAlgorithm;
+import de.uni_passau.fim.se2.sbse.suite_minimisation.algorithms.NSGA2;
+import de.uni_passau.fim.se2.sbse.suite_minimisation.algorithms.RandomSearch;
 import de.uni_passau.fim.se2.sbse.suite_minimisation.algorithms.SearchAlgorithmType;
+import de.uni_passau.fim.se2.sbse.suite_minimisation.chromosomes.BiChromosome;
 import de.uni_passau.fim.se2.sbse.suite_minimisation.chromosomes.Chromosome;
+import de.uni_passau.fim.se2.sbse.suite_minimisation.crossover.Crossover;
+import de.uni_passau.fim.se2.sbse.suite_minimisation.crossover.BiCrossover;
 import de.uni_passau.fim.se2.sbse.suite_minimisation.fitness_functions.*;
+import de.uni_passau.fim.se2.sbse.suite_minimisation.mutation.Mutation;
+import de.uni_passau.fim.se2.sbse.suite_minimisation.mutation.BiMutation;
+import de.uni_passau.fim.se2.sbse.suite_minimisation.selection.BinaryTournamentSelection;
+import de.uni_passau.fim.se2.sbse.suite_minimisation.selection.Selection;
 import de.uni_passau.fim.se2.sbse.suite_minimisation.stopping_conditions.StoppingCondition;
 
+import java.util.Comparator;
 import java.util.Random;
 
 public class AlgorithmBuilder {
@@ -74,7 +84,7 @@ public class AlgorithmBuilder {
      * the `numberTestCases` field.
      */
     private MinimizingFitnessFunction<? extends Chromosome<?>> makeTestSuiteSizeFitnessFunction() {
-        throw new UnsupportedOperationException("Implement me!");
+        return new TestSuiteSizeFitnessFunction();
     }
 
     /**
@@ -90,7 +100,7 @@ public class AlgorithmBuilder {
      * (system-under-test) can be retrieved from the `numberLines` field.
      */
     private MaximizingFitnessFunction<? extends Chromosome<?>> makeTestSuiteCoverageFitnessFunction() {
-        throw new UnsupportedOperationException("Implement me!");
+        return new CoverageFitnessFunction(coverageMatrix);
     }
 
     public MinimizingFitnessFunction<? extends Chromosome<?>> getSizeFF() {
@@ -136,6 +146,7 @@ public class AlgorithmBuilder {
         throw new UnsupportedOperationException("Implement me!");
     }
 
+
     /**
      * Returns an instance of the Random Search algorithm to find a solution for the test suite
      * minimization problem. The algorithm is constructed using the fields of this class.
@@ -159,8 +170,14 @@ public class AlgorithmBuilder {
      * necessary to add unchecked casts, e.g., when using the fitness function fields of this
      * class.
      */
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     private GeneticAlgorithm<? extends Chromosome<?>> buildRandomSearch() {
-        throw new UnsupportedOperationException("Implement me!");
-    }
+        return new RandomSearch(
+            stoppingCondition,
+            sizeFF,
+            coverageFF,
+            random
+        );
+}
+
 }
