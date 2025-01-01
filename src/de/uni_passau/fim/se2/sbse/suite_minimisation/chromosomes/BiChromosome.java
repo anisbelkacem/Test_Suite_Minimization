@@ -26,8 +26,8 @@ public class BiChromosome extends Chromosome<BiChromosome> {
     public static BiChromosome generateRandomChromosome(Mutation<BiChromosome> mutation, Crossover<BiChromosome> crossover) {
         Random random = new Random();
         List<Integer> testCases = new ArrayList<>();
-        int randomInt = random.nextInt(10);
-        for (int i = 0; i < randomInt; i++) {
+
+        for (int i = 0; i < testCases.size(); i++) {
             testCases.add(random.nextBoolean() ? 1 : 0);
         }
 
