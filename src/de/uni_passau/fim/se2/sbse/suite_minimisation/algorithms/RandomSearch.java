@@ -41,11 +41,11 @@ public class RandomSearch<T extends Chromosome<T>> implements GeneticAlgorithm<T
         BiMutation mutation = new BiMutation(MutationRate); 
         BiCrossover crossover = new BiCrossover(crossoverRate); 
         int randomSize = random.nextInt(10)+1; 
-        int maxIterations = 1000;
+        int maxIterations = 3000;
         int currentIteration = 0;
 
         while (!stoppingCondition.searchMustStop() && currentIteration < maxIterations) {
-            T randomChromosome = generateRandomChromosome(5, mutation,crossover);
+            T randomChromosome = generateRandomChromosome(randomSize, mutation,crossover);
             stoppingCondition.notifyFitnessEvaluation();
             updateParetoFront(paretoFront, randomChromosome);
             currentIteration++;
