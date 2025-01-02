@@ -54,7 +54,7 @@ public class NSGA2<T extends Chromosome<T>> implements GeneticAlgorithm<T> {
             random
         );
 
-        List<T> population = initializePopulation(1100,mutation,crossover,lenchromosome); 
+        List<T> population = initializePopulation(1000,mutation,crossover,lenchromosome); 
         stoppingCondition.notifySearchStarted();
         
 
@@ -67,6 +67,8 @@ public class NSGA2<T extends Chromosome<T>> implements GeneticAlgorithm<T> {
             List<List<T>> paretoFronts = nonDominatedSorting(combinedPopulation);
             population=paretoFronts.get(0);
         }
+        Set<T> finalParetoFront = new HashSet<>(population);
+        population = new ArrayList<>(finalParetoFront);
         return population;
     }
     @SuppressWarnings("unchecked")
@@ -131,9 +133,9 @@ public class NSGA2<T extends Chromosome<T>> implements GeneticAlgorithm<T> {
         if (!currentFront.isEmpty()) {
             fronts.add(currentFront);
         }
-        for(List<T> front : fronts) {
+        /*for(List<T> front : fronts) {
             sortFront(front,population.size()); 
-        }
+        }*/
         return fronts;
     }
     private void sortFront(List<T> front,int size) {
