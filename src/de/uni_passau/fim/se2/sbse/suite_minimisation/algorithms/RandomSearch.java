@@ -2,6 +2,7 @@ package de.uni_passau.fim.se2.sbse.suite_minimisation.algorithms;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Random;
 import de.uni_passau.fim.se2.sbse.suite_minimisation.chromosomes.Chromosome;
 import de.uni_passau.fim.se2.sbse.suite_minimisation.crossover.BiCrossover;
@@ -49,6 +50,7 @@ public class RandomSearch<T extends Chromosome<T>> implements GeneticAlgorithm<T
             updateParetoFront(paretoFront, randomChromosome);
             stoppingCondition.notifyFitnessEvaluation();
         }
+        if(paretoFront.size()!=0) throw new NoSuchElementException("Pareto cannot be empty." + paretoFront.size());
         return paretoFront;
     }
     @SuppressWarnings("unchecked")
