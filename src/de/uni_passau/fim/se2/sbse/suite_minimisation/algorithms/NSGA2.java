@@ -39,16 +39,17 @@ public class NSGA2<T extends Chromosome<T>> implements GeneticAlgorithm<T> {
         BiCrossover crossover = new BiCrossover(crossoverRate);
         BinaryTournamentSelection selection = new BinaryTournamentSelection(null, random);
         List<T> population = initializePopulation(100,mutation,crossover,lenchromosome); 
-        evaluatePopulation(population);
+        stoppingCondition.notifySearchStarted();
+        
 
         while (!stoppingCondition.searchMustStop()) {
             List<T> offspring = generateOffspring(population,selection,mutation,crossover);
             List<T> combinedPopulation = new ArrayList<>();
             combinedPopulation.addAll(population);
             combinedPopulation.addAll(offspring);
+            stoppingCondition.notifyFitnessEvaluation();
             List<List<T>> paretoFronts = nonDominatedSorting(combinedPopulation);
             population=paretoFronts.get(0);
-
         }
         return population;
     }
@@ -66,13 +67,7 @@ public class NSGA2<T extends Chromosome<T>> implements GeneticAlgorithm<T> {
     private BiChromosome generateRandomChromosome(int size,BiMutation mutation,BiCrossover crossover) {
         return BiChromosome.generateRandomChromosome(size ,mutation, crossover);
     }
-
-    private void evaluatePopulation(List<T> population) {
-        for (T  individual : population) {
-            sizeFF.applyAsDouble(individual);
-            coverageFF.applyAsDouble(individual);
-        }
-    }
+    
     @SuppressWarnings("unchecked")
     private List<T> generateOffspring(List<T> population , BinaryTournamentSelection selection ,BiMutation mutation,BiCrossover crossover) {
         List<T> offspring = new ArrayList<>();
@@ -121,20 +116,19 @@ public class NSGA2<T extends Chromosome<T>> implements GeneticAlgorithm<T> {
             fronts.add(currentFront);
         }
         for(List<T> front : fronts) {
-            sortFront(front); 
-
+            sortFront(front,population.size()); 
         }
         return fronts;
     }
-    private void sortFront(List<T> front) {
+    private void sortFront(List<T> front,int size) {
         Map<T, Double> crowdingDistances = new HashMap<>();
         for (T individual : front) {
-            crowdingDistances.put(individual, calculateCrowdingDistance(front, individual));
+            crowdingDistances.put(individual, calculateCrowdingDistance(front, individual,size));
         }
         front.sort((ind1, ind2) -> Double.compare(crowdingDistances.get(ind2), crowdingDistances.get(ind1)));
     }
 
-    private double calculateCrowdingDistance(List<T> front, T individual) {
+    private double calculateCrowdingDistance(List<T> front, T individual,int size) {
     
         double crowdingDistance = 0.0;
     
@@ -148,7 +142,7 @@ public class NSGA2<T extends Chromosome<T>> implements GeneticAlgorithm<T> {
         if (index == 0 || index == sortedByCoverage.size() - 1) {
             crowdingDistance += Double.POSITIVE_INFINITY; 
         } else {
-            crowdingDistance += Math.abs(coverageFF.applyAsDouble(sortedBySize.get(index + 1))  - sizeFF.applyAsDouble(sortedBySize.get(index - 1)));
+            crowdingDistance += Math.abs(coverageFF.applyAsDouble(sortedByCoverage.get(index + 1))  - sizeFF.applyAsDouble(sortedByCoverage.get(index - 1)));
         }
         index = sortedBySize.indexOf(individual);
         if (index == 0 || index == sortedBySize.size() - 1) {
@@ -156,7 +150,7 @@ public class NSGA2<T extends Chromosome<T>> implements GeneticAlgorithm<T> {
         } else {
             crowdingDistance += Math.abs(sizeFF.applyAsDouble(sortedBySize.get(index - 1))  - sizeFF.applyAsDouble(sortedBySize.get(index + 1)));
         }
-        return crowdingDistance;
+        return crowdingDistance / size;
     }
     
 

@@ -143,7 +143,7 @@ public class AlgorithmBuilder {
      */
     @SuppressWarnings("unchecked")
     private GeneticAlgorithm<? extends Chromosome<?>> buildNSGA2() {
-        throw new UnsupportedOperationException("Implement me!");
+        return new NSGA2(stoppingCondition, sizeFF, coverageFF, numberTestCases, random);
     }
 
 
