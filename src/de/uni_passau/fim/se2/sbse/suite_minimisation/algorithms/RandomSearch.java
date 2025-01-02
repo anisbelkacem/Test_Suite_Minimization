@@ -47,10 +47,11 @@ public class RandomSearch<T extends Chromosome<T>> implements GeneticAlgorithm<T
         
         while (!stoppingCondition.searchMustStop() ) {
             T randomChromosome = generateRandomChromosome(numberTestCases, mutation,crossover);
+            randomChromosome= (T)mutation.apply((BiChromosome)randomChromosome);
             updateParetoFront(paretoFront, randomChromosome);
             stoppingCondition.notifyFitnessEvaluation();
         }
-        if(paretoFront.size()!=0) throw new NoSuchElementException("Pareto cannot be empty." + paretoFront.size());
+        //if(paretoFront.size()!=0) throw new NoSuchElementException("Pareto cannot be empty." + paretoFront.size());
         return paretoFront;
     }
     @SuppressWarnings("unchecked")

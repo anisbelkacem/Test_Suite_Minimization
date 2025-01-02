@@ -28,7 +28,7 @@ public class BiMutation implements Mutation<BiChromosome> {
      * @return the mutated chromosome
      */
     @Override
-    public BiChromosome apply(final BiChromosome parent) {
+    public BiChromosome apply( BiChromosome parent) {
         BiChromosome offspring = parent.copy();
         Random random = new Random();
         for (int i = 0; i < offspring.getTestCases().size(); i++) {
