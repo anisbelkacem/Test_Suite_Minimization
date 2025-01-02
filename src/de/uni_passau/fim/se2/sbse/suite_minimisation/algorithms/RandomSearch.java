@@ -53,6 +53,17 @@ public class RandomSearch<T extends Chromosome<T>> implements GeneticAlgorithm<T
             updateParetoFront(paretoFront, randomChromosome);
             stoppingCondition.notifyFitnessEvaluation();
         }
+        for(int i=0;i<paretoFront.size();i++)
+        {
+            for(int j=0;j<paretoFront.size();j++)
+            {
+                if (dominates(paretoFront.get(i), paretoFront.get(j))) {
+                    throw new NoSuchElementException("there is domination in the pareto front" + i+"  "+j);
+                }
+            
+            }
+
+        }
         Set<T> finalParetoFront = new HashSet<>(paretoFront);
         paretoFront = new ArrayList<>(finalParetoFront);
         return paretoFront;
