@@ -58,10 +58,10 @@ public class NSGA2<T extends Chromosome<T>> implements GeneticAlgorithm<T> {
         stoppingCondition.notifySearchStarted();
 
         while (!stoppingCondition.searchMustStop()) {
-            List<T> offspring = generateOffspring(population,selection,mutation,crossover);
+            //List<T> offspring = generateOffspring(population,selection,mutation,crossover);
             List<T> combinedPopulation = new ArrayList<>();
             combinedPopulation.addAll(population);
-            combinedPopulation.addAll(offspring);
+            //combinedPopulation.addAll(offspring);
             stoppingCondition.notifyFitnessEvaluation();
             List<List<T>> paretoFronts = nonDominatedSorting(combinedPopulation);
             population=paretoFronts.get(0);
@@ -88,22 +88,12 @@ public class NSGA2<T extends Chromosome<T>> implements GeneticAlgorithm<T> {
     @SuppressWarnings("unchecked")
     private List<T> generateOffspring(List<T> population , BinaryTournamentSelection selection ,BiMutation mutation,BiCrossover crossover) {
         List<T> offspring = new ArrayList<>();
-
         while (offspring.size() < population.size()) {
-            T parent1 = population.get(random.nextInt(population.size()));
-            T parent2 = population.get(random.nextInt(population.size()));; 
-        while (parent1.equals(parent2)) {
-            parent2 = population.get(random.nextInt(population.size()));
-        }
-            //T  parent1 =  (T) selection.apply(population);
-           // T  parent2 = (T) selection.apply(population);
+            T  parent1 =  (T) selection.apply(population);
+            T  parent2 = (T) selection.apply(population);
             Pair<T> children = (Pair<T>) crossover.apply((BiChromosome)parent1, (BiChromosome) parent2);
-            
             for (T  child : children) {
-                boolean bb = random.nextBoolean();
-                if (bb) {
-                    child = (T) mutation.apply((BiChromosome) child);
-                }
+                child = (T) mutation.apply((BiChromosome) child);
                 offspring.add(child);
             }
         }
