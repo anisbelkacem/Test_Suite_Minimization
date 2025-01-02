@@ -50,9 +50,9 @@ public class RandomSearch<T extends Chromosome<T>> implements GeneticAlgorithm<T
         
         while (!stoppingCondition.searchMustStop()) {
             T randomChromosome = generateRandomChromosome(numberTestCases, mutation,crossover);
-            int change=0;
-            updateParetoFront(paretoFront, randomChromosome,change);
-            if (change==1) stoppingCondition.notifyFitnessEvaluation();
+            
+            updateParetoFront(paretoFront, randomChromosome);
+            stoppingCondition.notifyFitnessEvaluation();
         }
         for(int i=0;i<paretoFront.size();i++)
         {
@@ -73,7 +73,7 @@ public class RandomSearch<T extends Chromosome<T>> implements GeneticAlgorithm<T
         return (T) BiChromosome.generateRandomChromosome(size ,mutation, crossover);
     }
 
-    private void updateParetoFront(List<T> paretoFront, T newChromosome,int change) {
+    private void updateParetoFront(List<T> paretoFront, T newChromosome) {
   
         for (T chromosome : paretoFront) {
             if (dominates(chromosome, newChromosome)) {
@@ -82,7 +82,7 @@ public class RandomSearch<T extends Chromosome<T>> implements GeneticAlgorithm<T
         }
         paretoFront.removeIf(chromosome -> dominates(newChromosome, chromosome));
         paretoFront.add(newChromosome);
-        change=1;
+        
     }
 
     private boolean dominates(T c1, T c2) {
@@ -92,7 +92,8 @@ public class RandomSearch<T extends Chromosome<T>> implements GeneticAlgorithm<T
         double f1c2 = sizeFF.applyAsDouble(c2);
         double f2c2 = coverageFF.applyAsDouble(c2);
 
-        return (f1c1 <= f1c2 && f2c1 >= f2c2) && (f1c1 < f1c2 || f2c1 > f2c2);
+        return (f1c1 <= f1c2 && f2c1 >= f2c2) && (f1c1 < f1c2 );
+        //return (f1c1 <= f1c2 && f2c1 >= f2c2) && (f1c1 < f1c2 || f2c1 > f2c2);
     }
 
     @Override
