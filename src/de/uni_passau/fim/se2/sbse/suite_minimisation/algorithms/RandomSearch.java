@@ -50,8 +50,9 @@ public class RandomSearch<T extends Chromosome<T>> implements GeneticAlgorithm<T
         
         while (!stoppingCondition.searchMustStop()) {
             T randomChromosome = generateRandomChromosome(numberTestCases, mutation,crossover);
-            updateParetoFront(paretoFront, randomChromosome);
-            stoppingCondition.notifyFitnessEvaluation();
+            int change=0;
+            updateParetoFront(paretoFront, randomChromosome,change);
+            if (change==1) stoppingCondition.notifyFitnessEvaluation();
         }
         for(int i=0;i<paretoFront.size();i++)
         {
@@ -60,9 +61,7 @@ public class RandomSearch<T extends Chromosome<T>> implements GeneticAlgorithm<T
                 if (dominates(paretoFront.get(i), paretoFront.get(j))) {
                     throw new NoSuchElementException("there is domination in the pareto front" + i+"  "+j);
                 }
-            
             }
-
         }
         Set<T> finalParetoFront = new HashSet<>(paretoFront);
         paretoFront = new ArrayList<>(finalParetoFront);
@@ -74,7 +73,7 @@ public class RandomSearch<T extends Chromosome<T>> implements GeneticAlgorithm<T
         return (T) BiChromosome.generateRandomChromosome(size ,mutation, crossover);
     }
 
-    private void updateParetoFront(List<T> paretoFront, T newChromosome) {
+    private void updateParetoFront(List<T> paretoFront, T newChromosome,int change) {
   
         for (T chromosome : paretoFront) {
             if (dominates(chromosome, newChromosome)) {
@@ -83,6 +82,7 @@ public class RandomSearch<T extends Chromosome<T>> implements GeneticAlgorithm<T
         }
         paretoFront.removeIf(chromosome -> dominates(newChromosome, chromosome));
         paretoFront.add(newChromosome);
+        change=1;
     }
 
     private boolean dominates(T c1, T c2) {
