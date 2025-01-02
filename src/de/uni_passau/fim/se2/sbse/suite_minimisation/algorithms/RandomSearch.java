@@ -47,11 +47,13 @@ public class RandomSearch<T extends Chromosome<T>> implements GeneticAlgorithm<T
         double crossoverRate = random.nextDouble();
         BiMutation mutation = new BiMutation(MutationRate); 
         BiCrossover crossover = new BiCrossover(crossoverRate); 
+        int iteration = 0;
         
-        while (!stoppingCondition.searchMustStop() ) {
+        while (!stoppingCondition.searchMustStop() && iteration < 1000) {
             T randomChromosome = generateRandomChromosome(numberTestCases, mutation,crossover);
             updateParetoFront(paretoFront, randomChromosome);
             stoppingCondition.notifyFitnessEvaluation();
+            iteration++;
         }
         for(int i=0;i<paretoFront.size();i++)
         {
@@ -66,6 +68,7 @@ public class RandomSearch<T extends Chromosome<T>> implements GeneticAlgorithm<T
         }
         Set<T> finalParetoFront = new HashSet<>(paretoFront);
         paretoFront = new ArrayList<>(finalParetoFront);
+        if(paretoFront.size()!=0)throw new NoSuchElementException("the size" + paretoFront.size());
         return paretoFront;
     }
     @SuppressWarnings("unchecked")
@@ -90,8 +93,8 @@ public class RandomSearch<T extends Chromosome<T>> implements GeneticAlgorithm<T
 
         double f1c2 = sizeFF.applyAsDouble(c2);
         double f2c2 = coverageFF.applyAsDouble(c2);
-        return (f1c1 >= f1c2 && f2c1 >= f2c2) && (f1c1 > f1c2 || f2c1 > f2c2);
-        //return (f1c1 <= f1c2 && f2c1 >= f2c2) && (f1c1 < f1c2 || f2c1 > f2c2);
+
+        return (f1c1 <= f1c2 && f2c1 >= f2c2) && (f1c1 < f1c2 || f2c1 > f2c2);
     }
 
     @Override
