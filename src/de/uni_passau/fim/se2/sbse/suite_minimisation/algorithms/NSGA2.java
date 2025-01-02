@@ -77,7 +77,7 @@ public class NSGA2<T extends Chromosome<T>> implements GeneticAlgorithm<T> {
         for (int i = 0; i < size; i++) {
             
             T randomChromosome = (T) generateRandomChromosome(lenchromosome, mutation,crossover);
-            randomChromosome= (T) mutation.apply((BiChromosome)randomChromosome);
+            //randomChromosome= (T) mutation.apply((BiChromosome)randomChromosome);
             population.add(randomChromosome); 
         }
         return population;
