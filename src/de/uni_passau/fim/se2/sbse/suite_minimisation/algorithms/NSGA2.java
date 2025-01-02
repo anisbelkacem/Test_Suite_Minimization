@@ -58,14 +58,15 @@ public class NSGA2<T extends Chromosome<T>> implements GeneticAlgorithm<T> {
         stoppingCondition.notifySearchStarted();
         
 
-        //while (!stoppingCondition.searchMustStop()) {}
-            //List<T> offspring = generateOffspring(population,selection,mutation,crossover);
+        while (!stoppingCondition.searchMustStop()) {
+            List<T> offspring = generateOffspring(population,selection,mutation,crossover);
             List<T> combinedPopulation = new ArrayList<>();
             combinedPopulation.addAll(population);
-            //combinedPopulation.addAll(offspring);
+            combinedPopulation.addAll(offspring);
             stoppingCondition.notifyFitnessEvaluation();
             List<List<T>> paretoFronts = nonDominatedSorting(combinedPopulation);
             population=paretoFronts.get(0);
+        }
         return population;
     }
     @SuppressWarnings("unchecked")
@@ -91,7 +92,7 @@ public class NSGA2<T extends Chromosome<T>> implements GeneticAlgorithm<T> {
             T  parent2 = (T) selection.apply(population);
             Pair<T> children = (Pair<T>) crossover.apply((BiChromosome)parent1, (BiChromosome) parent2);
             for (T  child : children) {
-                mutation.apply((BiChromosome)child);
+                //mutation.apply((BiChromosome)child);
                 offspring.add(child);
             }
         }
@@ -130,9 +131,9 @@ public class NSGA2<T extends Chromosome<T>> implements GeneticAlgorithm<T> {
         if (!currentFront.isEmpty()) {
             fronts.add(currentFront);
         }
-        /*for(List<T> front : fronts) {
+        for(List<T> front : fronts) {
             sortFront(front,population.size()); 
-        }*/
+        }
         return fronts;
     }
     private void sortFront(List<T> front,int size) {
