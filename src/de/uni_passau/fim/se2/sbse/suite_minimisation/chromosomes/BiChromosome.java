@@ -5,7 +5,6 @@ import de.uni_passau.fim.se2.sbse.suite_minimisation.crossover.Crossover;
 import de.uni_passau.fim.se2.sbse.suite_minimisation.mutation.BiMutation;
 import de.uni_passau.fim.se2.sbse.suite_minimisation.mutation.Mutation;
 
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -59,6 +58,7 @@ public class BiChromosome extends Chromosome<BiChromosome> {
             int randomIndex = random.nextInt(size);
             testCases.set(randomIndex, 1);
         }
+
         return new BiChromosome(testCases, mutation, crossover);
     }
     
