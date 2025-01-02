@@ -56,7 +56,8 @@ public class NSGA2<T extends Chromosome<T>> implements GeneticAlgorithm<T> {
 
         List<T> population = initializePopulation(1000,mutation,crossover,lenchromosome); 
         stoppingCondition.notifySearchStarted();
-        
+        Set<T> ParetoFront = new HashSet<>(population);
+        population = new ArrayList<>(ParetoFront);
 
         while (!stoppingCondition.searchMustStop()) {
             //List<T> offspring = generateOffspring(population,selection,mutation,crossover);
