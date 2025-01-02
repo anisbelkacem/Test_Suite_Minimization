@@ -66,7 +66,7 @@ public class RandomSearch<T extends Chromosome<T>> implements GeneticAlgorithm<T
         }
         Set<T> finalParetoFront = new HashSet<>(paretoFront);
         paretoFront = new ArrayList<>(finalParetoFront);
-        if(paretoFront.size()!=0)throw new NoSuchElementException("the size" + paretoFront.size());
+        //if(paretoFront.size()!=0)throw new NoSuchElementException("the size" + paretoFront.size());
         return paretoFront;
     }
     @SuppressWarnings("unchecked")
