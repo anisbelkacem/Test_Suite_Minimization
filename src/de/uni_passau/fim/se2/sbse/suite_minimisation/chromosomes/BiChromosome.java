@@ -27,30 +27,14 @@ public class BiChromosome extends Chromosome<BiChromosome> {
 
     public static BiChromosome generateRandomChromosome(int size, BiMutation mutation, BiCrossover crossover) {
         Random random = new Random();
-        double randomDouble = random.nextDouble();
-        boolean randombool = random.nextBoolean();
         boolean hasOne = false;
         List<Integer> testCases = new ArrayList<>();
         for (int i = 0; i < size; i++) {
-            if(randombool)
-            {
-                if (randomDouble < 0.1) {
-                testCases.add(0);
-                } else {
-                    testCases.add(1);
-                    hasOne = true;
-                }
-
-            }else
-            {
-                if (randomDouble < 0.8) {
-                    testCases.add(0);
-                    } else {
-                        testCases.add(1);
-                        hasOne = true;
-                    }
+            boolean value = random.nextBoolean();
+            if (value) {
+                hasOne = true;
             }
-            
+            testCases.add(value ? 1 : 0);
         }
         if (!hasOne) {
             int randomIndex = random.nextInt(size);
