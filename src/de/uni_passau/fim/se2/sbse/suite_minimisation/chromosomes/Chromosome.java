@@ -1,6 +1,8 @@
 package de.uni_passau.fim.se2.sbse.suite_minimisation.chromosomes;
 
+import de.uni_passau.fim.se2.sbse.suite_minimisation.crossover.BiCrossover;
 import de.uni_passau.fim.se2.sbse.suite_minimisation.crossover.Crossover;
+import de.uni_passau.fim.se2.sbse.suite_minimisation.mutation.BiMutation;
 import de.uni_passau.fim.se2.sbse.suite_minimisation.mutation.Mutation;
 import de.uni_passau.fim.se2.sbse.suite_minimisation.utils.Pair;
 import de.uni_passau.fim.se2.sbse.suite_minimisation.utils.SelfTyped;
