@@ -133,9 +133,9 @@ public class NSGA2<T extends Chromosome<T>> implements GeneticAlgorithm<T> {
         if (!currentFront.isEmpty()) {
             fronts.add(currentFront);
         }
-        /*for(List<T> front : fronts) {
+        for(List<T> front : fronts) {
             sortFront(front,population.size()); 
-        }*/
+        }
         return fronts;
     }
     private void sortFront(List<T> front,int size) {
