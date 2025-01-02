@@ -75,13 +75,13 @@ public class NSGA2<T extends Chromosome<T>> implements GeneticAlgorithm<T> {
         List<T> population = new ArrayList<>();
         for (int i = 0; i < size; i++) {
             
-            T randomChromosome = (T) generateRandomChromosome(lenchromosome, mutation,crossover);
+            T randomChromosome = (T) generateRandomChromo(lenchromosome, mutation,crossover);
             population.add(randomChromosome); 
         }
         return population;
     }
 
-    private BiChromosome generateRandomChromosome(int size,BiMutation mutation,BiCrossover crossover) {
+    private BiChromosome generateRandomChromo(int size,BiMutation mutation,BiCrossover crossover) {
         return BiChromosome.generateRandomChromosome(size ,mutation, crossover);
     }
 

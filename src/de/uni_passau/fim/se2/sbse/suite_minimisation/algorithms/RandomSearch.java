@@ -49,7 +49,7 @@ public class RandomSearch<T extends Chromosome<T>> implements GeneticAlgorithm<T
         BiCrossover crossover = new BiCrossover(crossoverRate); 
         
         while (!stoppingCondition.searchMustStop()) {
-            T randomChromosome = generateRandomChromosome(numberTestCases, mutation,crossover);
+            T randomChromosome = generateRandomChromo(numberTestCases, mutation,crossover);
             
             updateParetoFront(paretoFront, randomChromosome);
             stoppingCondition.notifyFitnessEvaluation();
@@ -69,7 +69,7 @@ public class RandomSearch<T extends Chromosome<T>> implements GeneticAlgorithm<T
         return paretoFront;
     }
     @SuppressWarnings("unchecked")
-    private T generateRandomChromosome(int size,BiMutation mutation,BiCrossover crossover) {
+    private T generateRandomChromo(int size,BiMutation mutation,BiCrossover crossover) {
         return (T) BiChromosome.generateRandomChromosome(size ,mutation, crossover);
     }
 

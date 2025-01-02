@@ -23,25 +23,8 @@ public class BiChromosome extends Chromosome<BiChromosome> {
         super(other);
         this.testCases = new ArrayList<>(other.testCases);
     }
-
-    /*public static BiChromosome generateRandomChromosome(int size, BiMutation mutation, BiCrossover crossover) {
-        Random random = new Random();
-        boolean hasOne = false;
-        List<Integer> testCases = new ArrayList<>();
-        for (int i = 0; i < size; i++) {
-            boolean value = random.nextBoolean();
-            if (value) {
-                hasOne = true;
-            }
-            testCases.add(value ? 1 : 0);
-        }
-        if (!hasOne) {
-            int randomIndex = random.nextInt(size);
-            testCases.set(randomIndex, 1);
-        }
-        return new BiChromosome(testCases, mutation, crossover);
-    }*/
-    public static BiChromosome generateRandomChromosome(int size, BiMutation mutation, BiCrossover crossover) {
+    
+    public static BiChromosome generateRandomChromosome(int size, BiMutation mutation, BiCrossover crossover){
         Random random = new Random();
         boolean hasOne = false;
         List<Integer> testCases = new ArrayList<>();
