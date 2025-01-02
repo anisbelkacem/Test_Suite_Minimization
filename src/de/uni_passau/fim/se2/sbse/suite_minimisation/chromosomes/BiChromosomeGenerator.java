@@ -1,15 +1,15 @@
 package de.uni_passau.fim.se2.sbse.suite_minimisation.chromosomes;
 
-import de.uni_passau.fim.se2.sbse.suite_minimisation.crossover.Crossover;
-import de.uni_passau.fim.se2.sbse.suite_minimisation.mutation.Mutation;
+import de.uni_passau.fim.se2.sbse.suite_minimisation.crossover.BiCrossover;
+import de.uni_passau.fim.se2.sbse.suite_minimisation.mutation.BiMutation;
 
 public class BiChromosomeGenerator implements ChromosomeGenerator<BiChromosome> {
 
-    private final Mutation<BiChromosome> mutation;
-    private final Crossover<BiChromosome> crossover;
+    private final BiMutation mutation;
+    private final BiCrossover crossover;
     private final int size;
 
-    public BiChromosomeGenerator(int size,Mutation<BiChromosome> mutation, Crossover<BiChromosome> crossover) {
+    public BiChromosomeGenerator(int size,BiMutation mutation, BiCrossover crossover) {
         this.mutation = mutation;
         this.crossover = crossover;
         this.size = size;

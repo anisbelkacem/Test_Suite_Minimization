@@ -29,7 +29,7 @@ public class BiCrossover implements Crossover<BiChromosome> {
      * @return a pair of offspring chromosomes
      */
     @Override
-    public Pair<BiChromosome> apply(final BiChromosome parent1, final BiChromosome parent2) {
+    public Pair<BiChromosome> apply( BiChromosome parent1, final BiChromosome parent2) {
         Random random = new Random();
         if (random.nextDouble() > crossoverRate) {
             return Pair.of(parent1.copy(), parent2.copy());

@@ -141,9 +141,9 @@ public class AlgorithmBuilder {
      * necessary to add unchecked casts, e.g., when using the fitness function fields of this
      * class.
      */
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     private GeneticAlgorithm<? extends Chromosome<?>> buildNSGA2() {
-        throw new UnsupportedOperationException("Implement me!");
+        return new NSGA2(stoppingCondition, sizeFF, coverageFF, numberTestCases, random);
     }
 
 

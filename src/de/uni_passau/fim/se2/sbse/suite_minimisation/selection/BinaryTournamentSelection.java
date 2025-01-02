@@ -31,7 +31,7 @@ public class BinaryTournamentSelection<C extends Chromosome<C>> implements Selec
             final Random random)
             throws NullPointerException, IllegalArgumentException {
         this.random = requireNonNull(random);
-        this.comparator = requireNonNull(comparator);
+        this.comparator = comparator;
     }
 
     /**

@@ -1,6 +1,8 @@
 package de.uni_passau.fim.se2.sbse.suite_minimisation.chromosomes;
 
+import de.uni_passau.fim.se2.sbse.suite_minimisation.crossover.BiCrossover;
 import de.uni_passau.fim.se2.sbse.suite_minimisation.crossover.Crossover;
+import de.uni_passau.fim.se2.sbse.suite_minimisation.mutation.BiMutation;
 import de.uni_passau.fim.se2.sbse.suite_minimisation.mutation.Mutation;
 
 
@@ -13,7 +15,7 @@ public class BiChromosome extends Chromosome<BiChromosome> {
 
     private final List<Integer> testCases; 
 
-    public BiChromosome(List<Integer> testCases, Mutation<BiChromosome> mutation, Crossover<BiChromosome> crossover) {
+    public BiChromosome(List<Integer> testCases, BiMutation mutation, BiCrossover crossover) {
         super(mutation, crossover);
         this.testCases = new ArrayList<>(testCases);
     }
@@ -23,16 +25,18 @@ public class BiChromosome extends Chromosome<BiChromosome> {
         this.testCases = new ArrayList<>(other.testCases);
     }
 
-    public static BiChromosome generateRandomChromosome(int size, Mutation<BiChromosome> mutation, Crossover<BiChromosome> crossover) {
+    public static BiChromosome generateRandomChromosome(int size, BiMutation mutation, BiCrossover crossover) {
         Random random = new Random();
+        double randomDouble = random.nextDouble();
         boolean hasOne = false;
         List<Integer> testCases = new ArrayList<>();
         for (int i = 0; i < size; i++) {
-            boolean value = random.nextBoolean();
-            if (value) {
-                hasOne = true;
-            }
-            testCases.add(value ? 1 : 0);
+            if (randomDouble < 0.3) {
+                testCases.add(0);
+                } else {
+                    testCases.add(1);
+                    hasOne = true;
+                }
         }
         if (!hasOne) {
             int randomIndex = random.nextInt(size);
