@@ -92,8 +92,7 @@ public class RandomSearch<T extends Chromosome<T>> implements GeneticAlgorithm<T
         double f1c2 = sizeFF.applyAsDouble(c2);
         double f2c2 = coverageFF.applyAsDouble(c2);
 
-        return (f1c1 <= f1c2 && f2c1 >= f2c2) && (f1c1 < f1c2 );
-        //return (f1c1 <= f1c2 && f2c1 >= f2c2) && (f1c1 < f1c2 || f2c1 > f2c2);
+        return (f1c1 <= f1c2 && f2c1 >= f2c2) && (f1c1 < f1c2 || f2c1 > f2c2);
     }
 
     @Override
