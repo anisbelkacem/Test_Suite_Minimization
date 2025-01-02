@@ -75,6 +75,7 @@ public class NSGA2<T extends Chromosome<T>> implements GeneticAlgorithm<T> {
     private List<T> initializePopulation(int size ,BiMutation mutation,BiCrossover crossover,int lenchromosome) {
         List<T> population = new ArrayList<>();
         for (int i = 0; i < size; i++) {
+            
             T randomChromosome = (T) generateRandomChromosome(lenchromosome, mutation,crossover);
             population.add(randomChromosome); 
         }
@@ -85,7 +86,7 @@ public class NSGA2<T extends Chromosome<T>> implements GeneticAlgorithm<T> {
         return BiChromosome.generateRandomChromosome(size ,mutation, crossover);
     }
 
-    /*@SuppressWarnings("unchecked")
+    @SuppressWarnings("unchecked")
     private List<T> generateOffspring(List<T> population , BinaryTournamentSelection selection ,BiMutation mutation,BiCrossover crossover) {
         List<T> offspring = new ArrayList<>();
         while (offspring.size() < population.size()) {
@@ -98,7 +99,7 @@ public class NSGA2<T extends Chromosome<T>> implements GeneticAlgorithm<T> {
             }
         }
         return offspring;
-    }*/
+    }
 
     private List<List<T>> nonDominatedSorting(List<T> population) {
         Map<T, Integer> dominationCount = new HashMap<>();
@@ -137,7 +138,7 @@ public class NSGA2<T extends Chromosome<T>> implements GeneticAlgorithm<T> {
         }*/
         return fronts;
     }
-    /*private void sortFront(List<T> front,int size) {
+    private void sortFront(List<T> front,int size) {
         Map<T, Double> crowdingDistances = new HashMap<>();
         for (T individual : front) {
             crowdingDistances.put(individual, calculateCrowdingDistance(front, individual,size));
@@ -184,7 +185,9 @@ public class NSGA2<T extends Chromosome<T>> implements GeneticAlgorithm<T> {
             crowdingDistance += Math.abs(sizeFF.applyAsDouble(  (BiChromosome) sortedBySize.get(index - 1))  - sizeFF.applyAsDouble(  (BiChromosome) sortedBySize.get(index + 1)));
         }
         return crowdingDistance / size;
-    } */
+    }
+    
+
 
     private boolean dominates( BiChromosome  c1, BiChromosome c2) {
         double f1c1 = sizeFF.applyAsDouble(c1);
