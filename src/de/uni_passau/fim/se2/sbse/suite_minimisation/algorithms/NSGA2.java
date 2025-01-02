@@ -50,19 +50,19 @@ public class NSGA2<T extends Chromosome<T>> implements GeneticAlgorithm<T> {
         double f2_1 = sizeFF.applyAsDouble(chrom1);
         double f2_2 = sizeFF.applyAsDouble(chrom2);
         return Double.compare(f2_2, f2_1);
-    }, 
-    random
-);
+            }, 
+            random
+        );
 
-        List<T> population = initializePopulation(100,mutation,crossover,lenchromosome); 
+        List<T> population = initializePopulation(1000,mutation,crossover,lenchromosome); 
         stoppingCondition.notifySearchStarted();
         
 
         while (!stoppingCondition.searchMustStop()) {
-            List<T> offspring = generateOffspring(population,selection,mutation,crossover);
+            //List<T> offspring = generateOffspring(population,selection,mutation,crossover);
             List<T> combinedPopulation = new ArrayList<>();
             combinedPopulation.addAll(population);
-            combinedPopulation.addAll(offspring);
+            //combinedPopulation.addAll(offspring);
             stoppingCondition.notifyFitnessEvaluation();
             List<List<T>> paretoFronts = nonDominatedSorting(combinedPopulation);
             population=paretoFronts.get(0);
@@ -92,7 +92,7 @@ public class NSGA2<T extends Chromosome<T>> implements GeneticAlgorithm<T> {
             T  parent2 = (T) selection.apply(population);
             Pair<T> children = (Pair<T>) crossover.apply((BiChromosome)parent1, (BiChromosome) parent2);
             for (T  child : children) {
-                //mutation.apply((BiChromosome)child);
+                mutation.apply((BiChromosome)child);
                 offspring.add(child);
             }
         }
