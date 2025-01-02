@@ -31,7 +31,7 @@ public class BiChromosome extends Chromosome<BiChromosome> {
         boolean hasOne = false;
         List<Integer> testCases = new ArrayList<>();
         for (int i = 0; i < size; i++) {
-            if (randomDouble < 0.3) {
+            if (randomDouble < 0.1) {
                 testCases.add(0);
                 } else {
                     testCases.add(1);
