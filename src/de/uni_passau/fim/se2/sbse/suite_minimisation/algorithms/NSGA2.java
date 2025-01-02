@@ -13,15 +13,15 @@ import java.util.*;
 public class NSGA2<T extends Chromosome<T>> implements GeneticAlgorithm<T> {
 
     private final StoppingCondition stoppingCondition;
-    private final FitnessFunction<T> sizeFF;
-    private final FitnessFunction<T> coverageFF;
+    private final FitnessFunction<BiChromosome> sizeFF;
+    private final FitnessFunction<BiChromosome> coverageFF;
     private final int lenchromosome;
     private final Random random;
 
     public NSGA2(
             StoppingCondition stoppingCondition,
-            FitnessFunction<T> sizeFF,
-            FitnessFunction<T> coverageFF,
+            FitnessFunction<BiChromosome> sizeFF,
+            FitnessFunction<BiChromosome> coverageFF,
             int lenchromosome,
             Random random) {
         this.stoppingCondition = stoppingCondition;
@@ -37,7 +37,23 @@ public class NSGA2<T extends Chromosome<T>> implements GeneticAlgorithm<T> {
         double crossoverRate = random.nextDouble();
         BiMutation mutation = new BiMutation(MutationRate); 
         BiCrossover crossover = new BiCrossover(crossoverRate);
-        BinaryTournamentSelection selection = new BinaryTournamentSelection(null, random);
+        BinaryTournamentSelection selection = new BinaryTournamentSelection(
+        (c1, c2) -> {
+        BiChromosome chrom1 = (BiChromosome) c1;
+        BiChromosome chrom2 = (BiChromosome) c2;
+
+        double f1_1 = coverageFF.applyAsDouble(chrom1);
+        double f1_2 = coverageFF.applyAsDouble(chrom2);
+        if (Double.compare(f1_1, f1_2) != 0) {
+            return Double.compare(f1_1, f1_2); 
+        }
+        double f2_1 = sizeFF.applyAsDouble(chrom1);
+        double f2_2 = sizeFF.applyAsDouble(chrom2);
+        return Double.compare(f2_2, f2_1);
+    }, 
+    random
+);
+
         List<T> population = initializePopulation(100,mutation,crossover,lenchromosome); 
         stoppingCondition.notifySearchStarted();
         
@@ -67,7 +83,7 @@ public class NSGA2<T extends Chromosome<T>> implements GeneticAlgorithm<T> {
     private BiChromosome generateRandomChromosome(int size,BiMutation mutation,BiCrossover crossover) {
         return BiChromosome.generateRandomChromosome(size ,mutation, crossover);
     }
-    
+
     @SuppressWarnings("unchecked")
     private List<T> generateOffspring(List<T> population , BinaryTournamentSelection selection ,BiMutation mutation,BiCrossover crossover) {
         List<T> offspring = new ArrayList<>();
@@ -88,7 +104,7 @@ public class NSGA2<T extends Chromosome<T>> implements GeneticAlgorithm<T> {
         for (T individual : population) {
             int count = 0;
             for (T other : population) {
-                if (dominates(other, individual)) {
+                if (dominates( (BiChromosome) other,  (BiChromosome) individual)) {
                     count++;
                 }
             }
@@ -133,29 +149,45 @@ public class NSGA2<T extends Chromosome<T>> implements GeneticAlgorithm<T> {
         double crowdingDistance = 0.0;
     
         List<T> sortedByCoverage = new ArrayList<>(front);
-        sortedByCoverage.sort((ind1, ind2) -> Double.compare(coverageFF.applyAsDouble(ind2),coverageFF.applyAsDouble(ind1)));
+        sortedByCoverage.sort(
+            (c1, c2) -> {
+                BiChromosome chrom1 = (BiChromosome) c1;
+                BiChromosome chrom2 = (BiChromosome) c2;
+        
+                double f1_1 = coverageFF.applyAsDouble(chrom2);
+                double f1_2 = coverageFF.applyAsDouble(chrom1);
+                return Double.compare(f1_1, f1_2); 
+            });
 
         List<T> sortedBySize = new ArrayList<>(front);
-        sortedBySize.sort((ind1, ind2) -> Double.compare(sizeFF.applyAsDouble(ind1), sizeFF.applyAsDouble(ind2)));
+        sortedBySize.sort(
+            (c1, c2) -> {
+                BiChromosome chrom1 = (BiChromosome) c1;
+                BiChromosome chrom2 = (BiChromosome) c2;
+        
+                double f1_1 = coverageFF.applyAsDouble(chrom2);
+                double f1_2 = coverageFF.applyAsDouble(chrom1);
+                return Double.compare(f1_1, f1_2); 
+            });
     
         int index = sortedByCoverage.indexOf(individual);
         if (index == 0 || index == sortedByCoverage.size() - 1) {
             crowdingDistance += Double.POSITIVE_INFINITY; 
         } else {
-            crowdingDistance += Math.abs(coverageFF.applyAsDouble(sortedByCoverage.get(index + 1))  - sizeFF.applyAsDouble(sortedByCoverage.get(index - 1)));
+            crowdingDistance += Math.abs(coverageFF.applyAsDouble(  (BiChromosome) sortedByCoverage.get(index + 1))  - sizeFF.applyAsDouble(  (BiChromosome) sortedByCoverage.get(index - 1)));
         }
         index = sortedBySize.indexOf(individual);
         if (index == 0 || index == sortedBySize.size() - 1) {
             crowdingDistance += Double.POSITIVE_INFINITY;  
         } else {
-            crowdingDistance += Math.abs(sizeFF.applyAsDouble(sortedBySize.get(index - 1))  - sizeFF.applyAsDouble(sortedBySize.get(index + 1)));
+            crowdingDistance += Math.abs(sizeFF.applyAsDouble(  (BiChromosome) sortedBySize.get(index - 1))  - sizeFF.applyAsDouble(  (BiChromosome) sortedBySize.get(index + 1)));
         }
         return crowdingDistance / size;
     }
     
 
 
-    private boolean dominates(T c1, T c2) {
+    private boolean dominates( BiChromosome  c1, BiChromosome c2) {
         double f1c1 = sizeFF.applyAsDouble(c1);
         double f2c1 = coverageFF.applyAsDouble(c1);
 
