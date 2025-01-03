@@ -140,10 +140,8 @@ public class NSGA2<T extends Chromosome<T>> implements GeneticAlgorithm<T> {
             maxCoverage=Math.max(maxCoverage,fcoverage);
             maxSize=Math.max(maxSize,fsize);
         }
-    
-        for(List<T> front : fronts) {
-            sortFront(front,maxCoverage, maxSize); 
-        }
+        sortFront(fronts.get(0),maxCoverage, maxSize); 
+        //for(List<T> front : fronts) {}
         return fronts;
     }
     private void sortFront(List<T> front,double maxCoverage,double maxSize) {
