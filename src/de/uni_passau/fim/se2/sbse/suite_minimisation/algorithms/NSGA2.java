@@ -162,8 +162,8 @@ public class NSGA2<T extends Chromosome<T>> implements GeneticAlgorithm<T> {
                 BiChromosome chrom1 = (BiChromosome) c1;
                 BiChromosome chrom2 = (BiChromosome) c2;
         
-                double f1_1 = coverageFF.applyAsDouble(chrom1);
-                double f1_2 = coverageFF.applyAsDouble(chrom2);
+                double f1_1 = coverageFF.applyAsDouble(chrom2);
+                double f1_2 = coverageFF.applyAsDouble(chrom1);
                 return Double.compare(f1_1, f1_2); 
             });
 
