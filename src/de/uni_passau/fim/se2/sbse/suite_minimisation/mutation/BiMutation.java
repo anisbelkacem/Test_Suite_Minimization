@@ -32,7 +32,7 @@ public class BiMutation implements Mutation<BiChromosome> {
         BiChromosome offspring = parent.copy();
         Random random = new Random();
         for (int i = 0; i < offspring.getTestCases().size(); i++) {
-            if (random.nextDouble() < mutationRate) {
+            if (random.nextDouble() < (offspring.getActiveTestCases().size()/offspring.getTestCases().size())) {
                 
                 int currentBit = offspring.getTestCases().get(i);
                 offspring.getTestCases().set(i, currentBit == 1 ? 0 : 1);
