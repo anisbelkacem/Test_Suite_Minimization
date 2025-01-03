@@ -23,27 +23,31 @@ public class BiChromosome extends Chromosome<BiChromosome> {
         super(other);
         this.testCases = new ArrayList<>(other.testCases);
     }
-    
-    public static BiChromosome generateRandomChromosome(int size, BiMutation mutation, BiCrossover crossover){
-        Random random = new Random();
-        boolean hasOne = false;
-        List<Integer> testCases = new ArrayList<>();
-    
-        double bias = random.nextDouble();
-        for (int i = 0; i < size; i++) {
-            boolean value = random.nextDouble() < bias;
-            if (value) {
-                hasOne = true;
-            }
-            testCases.add(value ? 1 : 0);
-        }
-        if (!hasOne) {
-            int randomIndex = random.nextInt(size);
-            testCases.set(randomIndex, 1);
-        }
 
-        return new BiChromosome(testCases, mutation, crossover);
+    public static BiChromosome generateRandomChromosome(int size, BiMutation mutation, BiCrossover crossover) {
+    Random random = new Random();
+    List<Integer> testCases = new ArrayList<>();
+
+    int numberOfOnes = 1 + random.nextInt(size - 1);
+
+    for (int i = 0; i < numberOfOnes; i++) {
+        testCases.add(1);
     }
+    for (int i = numberOfOnes; i < size; i++) {
+        testCases.add(0);
+    }
+
+    
+    for (int i = testCases.size() - 1; i > 0; i--) {
+        int j = random.nextInt(i + 1);
+        int temp = testCases.get(i);
+        testCases.set(i, testCases.get(j));
+        testCases.set(j, temp);
+    }
+
+    return new BiChromosome(testCases, mutation, crossover);
+}
+
     
     public List<Integer> getActiveTestCases() {
         List<Integer> activeTestCases = new ArrayList<>();
