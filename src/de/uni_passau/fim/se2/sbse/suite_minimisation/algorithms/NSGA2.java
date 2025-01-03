@@ -131,20 +131,30 @@ public class NSGA2<T extends Chromosome<T>> implements GeneticAlgorithm<T> {
         if (!currentFront.isEmpty()) {
             fronts.add(currentFront);
         }
+        double maxCoverage=0;
+        double maxSize=0;
+        for(int i=0;i<population.size();i++)
+        {
+            double fcoverage = coverageFF.applyAsDouble( (BiChromosome) population.get(i));
+            double fsize = sizeFF.applyAsDouble( (BiChromosome) population.get(i));
+            maxCoverage=Math.max(maxCoverage,fcoverage);
+            maxSize=Math.max(maxSize,fsize);
+        }
+    
         for(List<T> front : fronts) {
-            sortFront(front,population.size()); 
+            sortFront(front,maxCoverage, maxSize); 
         }
         return fronts;
     }
-    private void sortFront(List<T> front,int size) {
+    private void sortFront(List<T> front,double maxCoverage,double maxSize) {
         Map<T, Double> crowdingDistances = new HashMap<>();
         for (T individual : front) {
-            crowdingDistances.put(individual, calculateCrowdingDistance(front, individual,size));
+            crowdingDistances.put(individual, calculateCrowdingDistance(front, individual, maxCoverage,maxSize));
         }
         front.sort((ind1, ind2) -> Double.compare(crowdingDistances.get(ind2), crowdingDistances.get(ind1)));
     }
 
-    private double calculateCrowdingDistance(List<T> front, T individual,int size) {
+    private double calculateCrowdingDistance(List<T> front, T individual,double maxCoverage,double maxSize) {
         double crowdingDistance = 0.0;
         List<T> sortedByCoverage = new ArrayList<>(front);
         sortedByCoverage.sort(
@@ -152,8 +162,8 @@ public class NSGA2<T extends Chromosome<T>> implements GeneticAlgorithm<T> {
                 BiChromosome chrom1 = (BiChromosome) c1;
                 BiChromosome chrom2 = (BiChromosome) c2;
         
-                double f1_1 = coverageFF.applyAsDouble(chrom2);
-                double f1_2 = coverageFF.applyAsDouble(chrom1);
+                double f1_1 = coverageFF.applyAsDouble(chrom1);
+                double f1_2 = coverageFF.applyAsDouble(chrom2);
                 return Double.compare(f1_1, f1_2); 
             });
 
@@ -172,15 +182,15 @@ public class NSGA2<T extends Chromosome<T>> implements GeneticAlgorithm<T> {
         if (index == 0 || index == sortedByCoverage.size() - 1) {
             crowdingDistance += Double.POSITIVE_INFINITY; 
         } else {
-            crowdingDistance += Math.abs(coverageFF.applyAsDouble(  (BiChromosome) sortedByCoverage.get(index + 1))  - sizeFF.applyAsDouble(  (BiChromosome) sortedByCoverage.get(index - 1)));
+            crowdingDistance += Math.abs(coverageFF.applyAsDouble(  (BiChromosome) sortedByCoverage.get(index + 1))  - coverageFF.applyAsDouble(  (BiChromosome) sortedByCoverage.get(index - 1))) / (maxCoverage -coverageFF.applyAsDouble(  (BiChromosome) sortedByCoverage.get(index))) ;
         }
         index = sortedBySize.indexOf(individual);
         if (index == 0 || index == sortedBySize.size() - 1) {
             crowdingDistance += Double.POSITIVE_INFINITY;  
         } else {
-            crowdingDistance += Math.abs(sizeFF.applyAsDouble(  (BiChromosome) sortedBySize.get(index - 1))  - sizeFF.applyAsDouble(  (BiChromosome) sortedBySize.get(index + 1)));
+            crowdingDistance += Math.abs(sizeFF.applyAsDouble(  (BiChromosome) sortedBySize.get(index - 1))  - sizeFF.applyAsDouble(  (BiChromosome) sortedBySize.get(index + 1))) / (maxSize -sizeFF.applyAsDouble(  (BiChromosome) sortedBySize.get(index))) ;
         }
-        return crowdingDistance / size;
+        return crowdingDistance;
     }
     
 
