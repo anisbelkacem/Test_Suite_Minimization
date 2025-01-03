@@ -58,8 +58,8 @@ public class NSGA2<T extends Chromosome<T>> implements GeneticAlgorithm<T> {
         stoppingCondition.notifySearchStarted();
 
         while (!stoppingCondition.searchMustStop()) {
-            //List<T> offspring = generateOffspring(population,selection,mutation,crossover);
-            List<T> combinedPopulation = new ArrayList<>(population);
+            List<T> offspring = generateOffspring(population,selection,mutation,crossover);
+            List<T> combinedPopulation = new ArrayList<>(offspring);
             //combinedPopulation.addAll(offspring);
             stoppingCondition.notifyFitnessEvaluation();
             List<List<T>> paretoFronts = nonDominatedSorting(combinedPopulation);
@@ -182,18 +182,17 @@ public class NSGA2<T extends Chromosome<T>> implements GeneticAlgorithm<T> {
         if (index == 0 || index == sortedByCoverage.size() - 1) {
             crowdingDistance += Double.POSITIVE_INFINITY; 
         } else {
-            crowdingDistance += Math.abs(coverageFF.applyAsDouble(  (BiChromosome) sortedByCoverage.get(index + 1))  - coverageFF.applyAsDouble(  (BiChromosome) sortedByCoverage.get(index - 1))) / (maxCoverage -coverageFF.applyAsDouble(  (BiChromosome) sortedByCoverage.get(index))) ;
+            crowdingDistance += Math.abs(coverageFF.applyAsDouble(  (BiChromosome) sortedByCoverage.get(index + 1))  - coverageFF.applyAsDouble(  (BiChromosome) sortedByCoverage.get(index - 1))) / (maxCoverage -coverageFF.applyAsDouble((BiChromosome) sortedByCoverage.get(index))) ;
         }
         index = sortedBySize.indexOf(individual);
         if (index == 0 || index == sortedBySize.size() - 1) {
             crowdingDistance += Double.POSITIVE_INFINITY;  
         } else {
-            crowdingDistance += Math.abs(sizeFF.applyAsDouble(  (BiChromosome) sortedBySize.get(index - 1))  - sizeFF.applyAsDouble(  (BiChromosome) sortedBySize.get(index + 1))) / (maxSize -sizeFF.applyAsDouble(  (BiChromosome) sortedBySize.get(index))) ;
+            crowdingDistance += Math.abs(sizeFF.applyAsDouble(  (BiChromosome) sortedBySize.get(index - 1))  - sizeFF.applyAsDouble(  (BiChromosome) sortedBySize.get(index + 1))) / (maxSize - sizeFF.applyAsDouble((BiChromosome) sortedBySize.get(index))) ;
         }
         return crowdingDistance;
     }
     
-
 
     private boolean dominates( BiChromosome  c1, BiChromosome c2) {
         double f1c1 = sizeFF.applyAsDouble(c1);
