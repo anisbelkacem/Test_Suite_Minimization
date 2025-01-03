@@ -63,8 +63,15 @@ public class NSGA2<T extends Chromosome<T>> implements GeneticAlgorithm<T> {
             //combinedPopulation.addAll(offspring);
             stoppingCondition.notifyFitnessEvaluation();
             List<List<T>> paretoFronts = nonDominatedSorting(combinedPopulation);
-            population=paretoFronts.get(0);
+            
+            List<T> newPopulation = new ArrayList<>();
+            for (List<T> front : paretoFronts) {
+                newPopulation.addAll(front); 
+            }
+            //population=paretoFronts.get(0);
+            population = newPopulation;
         }
+
         Set<T> finalParetoFront = new HashSet<>(population);
         population = new ArrayList<>(finalParetoFront);
         return population;
@@ -140,8 +147,8 @@ public class NSGA2<T extends Chromosome<T>> implements GeneticAlgorithm<T> {
             maxCoverage=Math.max(maxCoverage,fcoverage);
             maxSize=Math.max(maxSize,fsize);
         }
-        sortFront(fronts.get(0),maxCoverage, maxSize); 
-        //for(List<T> front : fronts) {}
+        
+        for(List<T> front : fronts) {sortFront(front,maxCoverage, maxSize); }
         return fronts;
     }
     private void sortFront(List<T> front,double maxCoverage,double maxSize) {
