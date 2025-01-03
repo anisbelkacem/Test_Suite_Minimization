@@ -64,6 +64,7 @@ public class NSGA2<T extends Chromosome<T>> implements GeneticAlgorithm<T> {
             
             stoppingCondition.notifyFitnessEvaluation();
             List<List<T>> paretoFronts = nonDominatedSorting(population);
+            stoppingCondition.notifyFitnessEvaluations((int)population.size());
             population=paretoFronts.get(0);
         }
 
@@ -94,7 +95,6 @@ public class NSGA2<T extends Chromosome<T>> implements GeneticAlgorithm<T> {
             T  parent2 = (T) selection.apply(population);
             Pair<T> children = (Pair<T>) crossover.apply((BiChromosome)parent1, (BiChromosome) parent2);
             for (T  child : children) {
-                stoppingCondition.notifyFitnessEvaluation();
                 child = (T) mutation.apply((BiChromosome) child);
                 offspring.add(child);
             }
