@@ -54,7 +54,7 @@ public class BinaryTournamentSelection<C extends Chromosome<C>> implements Selec
         }
 
         C first = population.get(random.nextInt(population.size()));
-        C second = population.get(random.nextInt(population.size()));; 
+        C second = population.get(random.nextInt(population.size())); 
         while (first.equals(second)) {
             second = population.get(random.nextInt(population.size()));
         }
