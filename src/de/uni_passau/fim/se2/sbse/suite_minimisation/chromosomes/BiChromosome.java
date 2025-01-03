@@ -6,9 +6,11 @@ import de.uni_passau.fim.se2.sbse.suite_minimisation.mutation.BiMutation;
 import de.uni_passau.fim.se2.sbse.suite_minimisation.mutation.Mutation;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Random;
+import java.util.Set;
 
 public class BiChromosome extends Chromosome<BiChromosome> {
 
@@ -24,26 +26,29 @@ public class BiChromosome extends Chromosome<BiChromosome> {
         this.testCases = new ArrayList<>(other.testCases);
     }
     
-    public static BiChromosome generateRandomChromosome(int size, BiMutation mutation, BiCrossover crossover){
-        Random random = new Random();
-        boolean hasOne = false;
-        List<Integer> testCases = new ArrayList<>();
-    
-        double bias = random.nextDouble();
-        for (int i = 0; i < size; i++) {
-            boolean value = random.nextDouble() < bias;
-            if (value) {
-                hasOne = true;
-            }
-            testCases.add(value ? 1 : 0);
-        }
-        if (!hasOne) {
-            int randomIndex = random.nextInt(size);
-            testCases.set(randomIndex, 1);
-        }
+    public static BiChromosome generateRandomChromosome(int size, BiMutation mutation, BiCrossover crossover) {
+    Random random = new Random();
+    List<Integer> testCases = new ArrayList<>();
 
-        return new BiChromosome(testCases, mutation, crossover);
+    int minOnes = 1; 
+    int maxOnes = size - 1; 
+    int numberOfOnes = minOnes + random.nextInt(maxOnes - minOnes + 1);
+
+    for (int i = 0; i < size; i++) {
+        testCases.add(0);
     }
+    Set<Integer> selectedIndices = new HashSet<>();
+    while (selectedIndices.size() < numberOfOnes) {
+        int index = random.nextInt(size);
+        if (!selectedIndices.contains(index)) {
+            selectedIndices.add(index);
+            testCases.set(index, 1);
+        }
+    }
+    //Chatgpt
+    return new BiChromosome(testCases, mutation, crossover);
+    }
+
     
     public List<Integer> getActiveTestCases() {
         List<Integer> activeTestCases = new ArrayList<>();
