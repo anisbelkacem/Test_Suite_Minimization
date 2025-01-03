@@ -68,8 +68,8 @@ public class NSGA2<T extends Chromosome<T>> implements GeneticAlgorithm<T> {
             population=paretoFronts.get(0);
         }
 
-        Set<T> finalParetoFront = new HashSet<>(population);
-        population = new ArrayList<>(finalParetoFront);
+        //Set<T> finalParetoFront = new HashSet<>(population);
+        //population = new ArrayList<>(finalParetoFront);
         return population;
     }
 
