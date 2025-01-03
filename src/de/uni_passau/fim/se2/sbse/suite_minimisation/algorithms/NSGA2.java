@@ -35,8 +35,8 @@ public class NSGA2<T extends Chromosome<T>> implements GeneticAlgorithm<T> {
     public List<T> findSolution() {
         double MutationRate = random.nextDouble();
         double crossoverRate = random.nextDouble();
-        BiMutation mutation = new BiMutation(1); 
-        BiCrossover crossover = new BiCrossover(1);
+        BiMutation mutation = new BiMutation(0.5); 
+        BiCrossover crossover = new BiCrossover(0.9);
         BinaryTournamentSelection selection = new BinaryTournamentSelection(
         (c1, c2) -> {
         BiChromosome chrom1 = (BiChromosome) c1;
@@ -54,7 +54,7 @@ public class NSGA2<T extends Chromosome<T>> implements GeneticAlgorithm<T> {
             random
         );
 
-        List<T> population = initializePopulation(500,mutation,crossover,lenchromosome); 
+        List<T> population = initializePopulation(50,mutation,crossover,lenchromosome); 
         stoppingCondition.notifySearchStarted();
         List<T> offspring = generateOffspring(population,selection,mutation,crossover);
         //List<T> combinedPopulation = new ArrayList<>(population);
