@@ -56,11 +56,12 @@ public class NSGA2<T extends Chromosome<T>> implements GeneticAlgorithm<T> {
 
         List<T> population = initializePopulation(1050,mutation,crossover,lenchromosome); 
         stoppingCondition.notifySearchStarted();
-        //List<T> offspring = generateOffspring(population,selection,mutation,crossover);
+        List<T> offspring = generateOffspring(population,selection,mutation,crossover);
+        List<T> combinedPopulation = new ArrayList<>(population);
+        combinedPopulation.addAll(offspring);
+        
         while (!stoppingCondition.searchMustStop()) {
             
-            List<T> combinedPopulation = new ArrayList<>(population);
-            //combinedPopulation.addAll(offspring);
             stoppingCondition.notifyFitnessEvaluation();
             List<List<T>> paretoFronts = nonDominatedSorting(combinedPopulation);
             population=paretoFronts.get(0);
