@@ -58,7 +58,7 @@ public class NSGA2<T extends Chromosome<T>> implements GeneticAlgorithm<T> {
         stoppingCondition.notifySearchStarted();
         List<T> offspring = generateOffspring(population,selection,mutation,crossover);
         population.addAll(offspring);
-        stoppingCondition.notifyFitnessEvaluations((int)offspring.size());
+        //stoppingCondition.notifyFitnessEvaluations((int)offspring.size());
         while (!stoppingCondition.searchMustStop()) {
             //List<T> offspring = generateOffspring(population,selection,mutation,crossover);
             //List<T> combinedPopulation = new ArrayList<>(population);
