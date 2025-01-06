@@ -54,7 +54,7 @@ public class NSGA2<T extends Chromosome<T>> implements GeneticAlgorithm<T> {
             random
         );
 
-        List<T> population = initializePopulation(10,mutation,crossover,lenchromosome); 
+        List<T> population = initializePopulation(50,mutation,crossover,lenchromosome); 
         stoppingCondition.notifySearchStarted();
         List<T> offspring = generateOffspring(population,selection,mutation,crossover);
         population.addAll(offspring);
@@ -84,7 +84,7 @@ public class NSGA2<T extends Chromosome<T>> implements GeneticAlgorithm<T> {
     private List<T> initializePopulation(int size ,BiMutation mutation,BiCrossover crossover,int lenchromosome) {
         List<T> population = new ArrayList<>();
         for (int i = 0; i < size; i++) {
-            T randomChromosome = (T) generateRandomChromo(50, mutation,crossover);
+            T randomChromosome = (T) generateRandomChromo(20, mutation,crossover);
             population.add(randomChromosome); 
         }
         return population;
