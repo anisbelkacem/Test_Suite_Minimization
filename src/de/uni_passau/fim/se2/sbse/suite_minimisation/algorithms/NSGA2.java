@@ -64,8 +64,9 @@ public class NSGA2<T extends Chromosome<T>> implements GeneticAlgorithm<T> {
         int counterGeneration=0;
         //if(population.size()!=0)throw new RuntimeException("population size is "+population.size());
         while (!stoppingCondition.searchMustStop() && counterGeneration < 5) {
+            if(true)throw new RuntimeException("start wit size "+population.size()+ "stopping until " +stoppingCondition.getProgress() );
             List<T> offspring = generateOffspring(population,selection,mutation,crossover);
-            //List<T> combinedPopulation = new ArrayList<>(population);
+            //List<T> co    mbinedPopulation = new ArrayList<>(population);
             if(offspring.size()!=0)throw new RuntimeException("population size is "+population.size() + " and offspring size is "+offspring.size());
             population.addAll(offspring);
             paretoFronts = nonDominatedSorting(population);
