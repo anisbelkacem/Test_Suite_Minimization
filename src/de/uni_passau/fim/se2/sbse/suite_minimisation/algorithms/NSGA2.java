@@ -106,16 +106,19 @@ public class NSGA2<T extends Chromosome<T>> implements GeneticAlgorithm<T> {
         while (offspring.size() < population.size()) {
             T parent1 = population.get(random.nextInt(population.size()));
             T parent2 = population.get(random.nextInt(population.size())); 
-            while (((Chromosome)parent1).equals((Chromosome) parent2)) {
-                parent2 = population.get(random.nextInt(population.size()));
-            }
+            if(parent1.equals(parent2)){
+                throw new RuntimeException("parents are equal");
+            }else 
+            {
+                throw new RuntimeException("parents are not equal");
+            
             Pair<T> children = (Pair<T>) crossover.apply((BiChromosome)parent1, (BiChromosome) parent2);
             for (T  child : children) {
                 child = (T) mutation.apply((BiChromosome) child);
                 offspring.add(child);
             }
             
-        }
+            }
         if(offspring.size()!=0) throw new RuntimeException("the offspring is Empty");
         return offspring;
     }
