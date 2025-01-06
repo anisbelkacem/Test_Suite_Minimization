@@ -98,14 +98,28 @@ public class NSGA2<T extends Chromosome<T>> implements GeneticAlgorithm<T> {
     private List<T> generateOffspring(List<T> population , BinaryTournamentSelection selection ,BiMutation mutation,BiCrossover crossover) {
         List<T> offspring = new ArrayList<>();
         while (offspring.size() < population.size()) {
-            T  parent1 =  (T) selection.apply(population);
-            T  parent2 = (T) selection.apply(population);
+            T parent1 = population.get(random.nextInt(population.size()));
+            //stoppingCondition.notifyFitnessEvaluation();
+            T parent2 = population.get(random.nextInt(population.size())); 
+            //stoppingCondition.notifyFitnessEvaluation();
             Pair<T> children = (Pair<T>) crossover.apply((BiChromosome)parent1, (BiChromosome) parent2);
+            if (children == null) {
+                throw new RuntimeException("Crossover returned null pair of children.");
+            }
+            if (children.getFst() == null || children.getSnd() == null) {
+                throw new RuntimeException("Crossover returned null child.");
+            }
             for (T  child : children) {
                 child = (T) mutation.apply((BiChromosome) child);
+                if (child == null) {
+                    throw new RuntimeException("Mutation returned a null child.");
+                }
+                //stoppingCondition.notifyFitnessEvaluation();
                 offspring.add(child);
             }
+            
         }
+        //if(offspring.size()!=0) throw new RuntimeException("the offspring is Empty");
         return offspring;
     }
 
