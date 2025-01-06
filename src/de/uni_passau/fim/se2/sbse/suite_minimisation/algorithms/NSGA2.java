@@ -106,7 +106,6 @@ public class NSGA2<T extends Chromosome<T>> implements GeneticAlgorithm<T> {
             T  parent2 = (T) selection.apply(population);
             Pair<T> children = (Pair<T>) crossover.apply((BiChromosome)parent1, (BiChromosome) parent2);
             for (T  child : children) {
-                offspring.add(child);
                 child = (T) mutation.apply((BiChromosome) child);
                 offspring.add(child);
             }
