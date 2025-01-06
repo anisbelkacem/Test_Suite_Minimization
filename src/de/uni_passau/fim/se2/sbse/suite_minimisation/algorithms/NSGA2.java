@@ -69,7 +69,7 @@ public class NSGA2<T extends Chromosome<T>> implements GeneticAlgorithm<T> {
             //if(offspring.size()!=0)throw new RuntimeException("population size is "+population.size() + " and offspring size is "+offspring.size());
             population.addAll(offspring);
             paretoFronts = nonDominatedSorting(population);
-            stoppingCondition.notifyFitnessEvaluations((int) population.size());
+            stoppingCondition.notifyFitnessEvaluations((int) offspring.size());
             //stoppingCondition.notifyFitnessEvaluations((int)offspring.size());
             /*population = new ArrayList<>();
             for(List<T> f:paretoFronts )
