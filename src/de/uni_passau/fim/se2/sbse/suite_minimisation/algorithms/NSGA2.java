@@ -33,8 +33,8 @@ public class NSGA2<T extends Chromosome<T>> implements GeneticAlgorithm<T> {
 
     @Override @SuppressWarnings({ "rawtypes", "unchecked" })
     public List<T> findSolution() {
-        double MutationRate = random.nextDouble();
-        double crossoverRate = random.nextDouble();
+        double MutationRate = random.nextDouble( 0.0,1.0);
+        double crossoverRate = random.nextDouble(0.0,1.0);
         BiMutation mutation = new BiMutation(MutationRate); 
         BiCrossover crossover = new BiCrossover(0.95);
         BinaryTournamentSelection selection = new BinaryTournamentSelection(
@@ -56,6 +56,8 @@ public class NSGA2<T extends Chromosome<T>> implements GeneticAlgorithm<T> {
 
         List<T> population = initializePopulation(50,mutation,crossover,lenchromosome); 
         stoppingCondition.notifySearchStarted();
+        List<List<T>> paretoFronts = nonDominatedSorting(population);
+        population=paretoFronts.get(0);
         //List<T> offspring = generateOffspring(population,selection,mutation,crossover);
         //population.addAll(offspring);
         //stoppingCondition.notifyFitnessEvaluations((int)offspring.size());
@@ -66,7 +68,7 @@ public class NSGA2<T extends Chromosome<T>> implements GeneticAlgorithm<T> {
             List<T> offspring = generateOffspring(population,selection,mutation,crossover);
             //List<T> combinedPopulation = new ArrayList<>(population);
             population.addAll(offspring);
-            List<List<T>> paretoFronts = nonDominatedSorting(population);
+            paretoFronts = nonDominatedSorting(population);
             stoppingCondition.notifyFitnessEvaluations((int) population.size());
             //stoppingCondition.notifyFitnessEvaluations((int)offspring.size());
             /*population = new ArrayList<>();
