@@ -121,7 +121,7 @@ public class NSGA2<T extends Chromosome<T>> implements GeneticAlgorithm<T> {
                 if (child == null) {
                     throw new RuntimeException("Mutation returned a null child.");
                 }
-                stoppingCondition.notifyFitnessEvaluation();
+                //stoppingCondition.notifyFitnessEvaluation();
                 offspring.add(child);
             }
             
