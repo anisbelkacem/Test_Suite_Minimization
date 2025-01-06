@@ -60,7 +60,7 @@ public class NSGA2<T extends Chromosome<T>> implements GeneticAlgorithm<T> {
         //population.addAll(offspring);
         //stoppingCondition.notifyFitnessEvaluations((int)offspring.size());
         int genecounter=0;
-        while (!stoppingCondition.searchMustStop() && genecounter<10) {
+        while (!stoppingCondition.searchMustStop() && genecounter<30) {
             List<T> offspring = generateOffspring(population,selection,mutation,crossover);
             //List<T> combinedPopulation = new ArrayList<>(population);
             population.addAll(offspring);
