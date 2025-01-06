@@ -53,7 +53,6 @@ public class NSGA2<T extends Chromosome<T>> implements GeneticAlgorithm<T> {
             }, 
             random
         );
-
         List<T> population = initializePopulation(50,mutation,crossover,lenchromosome); 
         stoppingCondition.notifySearchStarted();
         List<List<T>> paretoFronts = nonDominatedSorting(population);
@@ -64,7 +63,7 @@ public class NSGA2<T extends Chromosome<T>> implements GeneticAlgorithm<T> {
         int counterGeneration=0;
         //if(population.size()!=0)throw new RuntimeException("population size is "+population.size());
         while (!stoppingCondition.searchMustStop() && counterGeneration < 5) {
-            if(true)throw new RuntimeException("start wit size "+population.size()+ "stopping until " +stoppingCondition.getProgress() );
+            //if(true)throw new RuntimeException("start wit size "+population.size()+ "stopping until " +stoppingCondition.getProgress() );
             List<T> offspring = generateOffspring(population,selection,mutation,crossover);
             //List<T> co    mbinedPopulation = new ArrayList<>(population);
             if(offspring.size()!=0)throw new RuntimeException("population size is "+population.size() + " and offspring size is "+offspring.size());
@@ -105,9 +104,11 @@ public class NSGA2<T extends Chromosome<T>> implements GeneticAlgorithm<T> {
     private List<T> generateOffspring(List<T> population , BinaryTournamentSelection selection ,BiMutation mutation,BiCrossover crossover) {
         List<T> offspring = new ArrayList<>();
         while (offspring.size() < population.size()) {
-            T  parent1 =  (T) selection.apply(population);
-            T  parent2 = (T) selection.apply(population);
-            if(parent1.equals(parent2)) throw new RuntimeException("Parent 1 and Parent 2 are the same");
+            T parent1 = population.get(random.nextInt(population.size()));
+            T parent2 = population.get(random.nextInt(population.size())); 
+            while (((Chromosome)parent1).equals((Chromosome) parent2)) {
+                parent2 = population.get(random.nextInt(population.size()));
+            }
             Pair<T> children = (Pair<T>) crossover.apply((BiChromosome)parent1, (BiChromosome) parent2);
             for (T  child : children) {
                 child = (T) mutation.apply((BiChromosome) child);
