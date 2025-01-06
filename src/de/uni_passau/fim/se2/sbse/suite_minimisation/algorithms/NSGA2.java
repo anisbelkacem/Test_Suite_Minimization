@@ -122,7 +122,7 @@ public class NSGA2<T extends Chromosome<T>> implements GeneticAlgorithm<T> {
             }
             
         }
-        if(offspring.size()!=0) throw new RuntimeException("the offspring is Empty");
+        //if(offspring.size()!=0) throw new RuntimeException("the offspring is Empty");
         return offspring;
     }
 
