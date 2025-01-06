@@ -95,9 +95,9 @@ public class NSGA2<T extends Chromosome<T>> implements GeneticAlgorithm<T> {
         List<T> offspring = new ArrayList<>();
         while (offspring.size() < population.size()) {
             T parent1 = population.get(random.nextInt(population.size()));
-            stoppingCondition.notifyFitnessEvaluation();
+            //stoppingCondition.notifyFitnessEvaluation();
             T parent2 = population.get(random.nextInt(population.size())); 
-            stoppingCondition.notifyFitnessEvaluation();
+            //stoppingCondition.notifyFitnessEvaluation();
             Pair<T> children = (Pair<T>) crossover.apply((BiChromosome)parent1, (BiChromosome) parent2);
             if (children == null) {
                 throw new RuntimeException("Crossover returned null pair of children.");
