@@ -59,7 +59,8 @@ public class NSGA2<T extends Chromosome<T>> implements GeneticAlgorithm<T> {
         //List<T> offspring = generateOffspring(population,selection,mutation,crossover);
         //population.addAll(offspring);
         //stoppingCondition.notifyFitnessEvaluations((int)offspring.size());
-        while (!stoppingCondition.searchMustStop()) {
+        int genecounter=0;
+        while (!stoppingCondition.searchMustStop() && genecounter<10) {
             List<T> offspring = generateOffspring(population,selection,mutation,crossover);
             //List<T> combinedPopulation = new ArrayList<>(population);
             population.addAll(offspring);
@@ -68,8 +69,8 @@ public class NSGA2<T extends Chromosome<T>> implements GeneticAlgorithm<T> {
             //stoppingCondition.notifyFitnessEvaluations((int)offspring.size());
             population=paretoFronts.get(0);
         }
-        List<List<T>> finalFront = nonDominatedSorting(population);
-        population=finalFront.get(0);
+        //List<List<T>> finalFront = nonDominatedSorting(population);
+        //population=finalFront.get(0);
         Set<T> finalParetoFront = new HashSet<>(population);
         population = new ArrayList<>(finalParetoFront);
         return population;
@@ -109,7 +110,7 @@ public class NSGA2<T extends Chromosome<T>> implements GeneticAlgorithm<T> {
                 if (child == null) {
                     throw new RuntimeException("Mutation returned a null child.");
                 }
-                stoppingCondition.notifyFitnessEvaluation();
+                //stoppingCondition.notifyFitnessEvaluation();
                 offspring.add(child);
             }
             
