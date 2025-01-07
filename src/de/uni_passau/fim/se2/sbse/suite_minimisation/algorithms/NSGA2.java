@@ -53,14 +53,12 @@ public class NSGA2<T extends Chromosome<T>> implements GeneticAlgorithm<T> {
             }, 
             random
         );
-
-        List<T> population = initializePopulation(100,mutation,crossover,lenchromosome); 
         stoppingCondition.notifySearchStarted();
+        List<T> population = initializePopulation(50,mutation,crossover,lenchromosome); 
+        stoppingCondition.notifyFitnessEvaluations((int)population.size());
         //List<T> offspring = generateOffspring(population,selection,mutation,crossover);
         //population.addAll(offspring);
-        //stoppingCondition.notifyFitnessEvaluations((int)offspring.size());
-        int genecounter=0;
-        while (!stoppingCondition.searchMustStop() && genecounter<30) {
+        while (!stoppingCondition.searchMustStop()) {
             List<T> offspring = generateOffspring(population,selection,mutation,crossover);
             //List<T> combinedPopulation = new ArrayList<>(population);
             population.addAll(offspring);
@@ -95,9 +93,7 @@ public class NSGA2<T extends Chromosome<T>> implements GeneticAlgorithm<T> {
         List<T> offspring = new ArrayList<>();
         while (offspring.size() < population.size()) {
             T parent1 = population.get(random.nextInt(population.size()));
-            //stoppingCondition.notifyFitnessEvaluation();
             T parent2 = population.get(random.nextInt(population.size())); 
-            //stoppingCondition.notifyFitnessEvaluation();
             Pair<T> children = (Pair<T>) crossover.apply((BiChromosome)parent1, (BiChromosome) parent2);
             if (children == null) {
                 throw new RuntimeException("Crossover returned null pair of children.");
@@ -110,8 +106,8 @@ public class NSGA2<T extends Chromosome<T>> implements GeneticAlgorithm<T> {
                 if (child == null) {
                     throw new RuntimeException("Mutation returned a null child.");
                 }
-                //stoppingCondition.notifyFitnessEvaluation();
                 offspring.add(child);
+                stoppingCondition.notifyFitnessEvaluation();
             }
             
         }
