@@ -56,11 +56,8 @@ public class NSGA2Test {
         verify(stoppingCondition, times(1)).notifySearchStarted();
         verify(stoppingCondition, atLeastOnce()).notifyFitnessEvaluations(anyInt());
         verify(stoppingCondition, atLeastOnce()).notifyFitnessEvaluation();
+        assertEquals(stoppingCondition, nsga2.getStoppingCondition());
     }
 
-
-    @Test
-    void testGetStoppingCondition() {
-
-    }
+    
 }

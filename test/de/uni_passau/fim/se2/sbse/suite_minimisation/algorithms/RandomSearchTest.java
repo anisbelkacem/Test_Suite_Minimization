@@ -39,7 +39,7 @@ class RandomSearchTest {
                 .thenReturn(false)  
                 .thenReturn(false)  
                 .thenReturn(true); 
-                
+
         Mockito.when(sizeFF.applyAsDouble(Mockito.any(BiChromosome.class)))
                 .thenReturn(1.0); 
         Mockito.when(coverageFF.applyAsDouble(Mockito.any(BiChromosome.class)))
@@ -48,6 +48,9 @@ class RandomSearchTest {
 
         assertEquals(2, solution.size(), "The Pareto front should have one solution.");
         Mockito.verify(stoppingCondition, Mockito.times(3)).searchMustStop();
+        assertNotEquals(5, solution.size(), "The Pareto front should have one solution.");
+        Mockito.verify(stoppingCondition, Mockito.times(3)).searchMustStop();
+        assertEquals(stoppingCondition, randomSearch.getStoppingCondition());
     }
 
     @Test
@@ -62,7 +65,9 @@ class RandomSearchTest {
 
         RandomSearch<BiChromosome> search = new RandomSearch<>(stoppingCondition, sizeFF, coverageFF, 10, new Random());
         boolean dominates = search.dominates(c1, c2);
+        boolean dominates1 = search.dominates(c2, c1);
 
         assertTrue(dominates, "c1 should dominate c2 based on the mock fitness functions.");
+        assertFalse(dominates1, "c1 should dominate c2 based on the mock fitness functions.");
     }
 }
