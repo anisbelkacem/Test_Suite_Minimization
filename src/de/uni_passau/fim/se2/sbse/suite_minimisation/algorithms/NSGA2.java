@@ -56,26 +56,19 @@ public class NSGA2<T extends Chromosome<T>> implements GeneticAlgorithm<T> {
         stoppingCondition.notifySearchStarted();
         List<T> population = initializePopulation(100,mutation,crossover,lenchromosome); 
         stoppingCondition.notifyFitnessEvaluations((int)population.size());
-        //List<T> offspring = generateOffspring(population,selection,mutation,crossover);
-        //population.addAll(offspring);
         while (!stoppingCondition.searchMustStop()) {
             List<T> offspring = generateOffspring(population,selection,mutation,crossover);
-            //List<T> combinedPopulation = new ArrayList<>(population);
             population.addAll(offspring);
             List<List<T>> paretoFronts = nonDominatedSorting(population);
-            //stoppingCondition.notifyFitnessEvaluations((int)offspring.size());
-            //population=paretoFronts.get(0);
             List<T> PFront = new ArrayList<>();
             for(List<T> front : paretoFronts) {
                 PFront.addAll(front);
             }
             List<T> newpopulation = new ArrayList<>();
-            newpopulation = (List<T>) PFront.subList(0, Math.min(100,(int)population.size()));
+            newpopulation = (List<T>) PFront.subList(0, 100);
             population=newpopulation;
 
         }
-        //List<List<T>> finalFront = nonDominatedSorting(population);
-        //population=finalFront.get(0);
         Set<T> finalParetoFront = new HashSet<>(population);
         population = new ArrayList<>(finalParetoFront);
         return population;
@@ -118,7 +111,6 @@ public class NSGA2<T extends Chromosome<T>> implements GeneticAlgorithm<T> {
             }
             
         }
-        //if(offspring.size()!=0) throw new RuntimeException("the offspring is Empty");
         return offspring;
     }
 
