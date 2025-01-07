@@ -85,7 +85,7 @@ public class RandomSearch<T extends Chromosome<T>> implements GeneticAlgorithm<T
         
     }
 
-    private boolean dominates(T c1, T c2) {
+    public boolean dominates(T c1, T c2) {
         double f1c1 = sizeFF.applyAsDouble(c1);
         double f2c1 = coverageFF.applyAsDouble(c1);
 
