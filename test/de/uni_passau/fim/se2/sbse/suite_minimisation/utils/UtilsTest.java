@@ -65,6 +65,23 @@ public class UtilsTest {
         double result = Utils.computeHyperVolume(front, mockF1, mockF2, 1.0, 1.0);
         assertEquals(0.28, result, 1e-9, "Hypervolume for multiple points should be correctly calculated.");
     }
+    @Test
+    public void testsort() {
+        FitnessFunction mockF1 = mock(FitnessFunction.class);
+        FitnessFunction mockF2 = mock(FitnessFunction.class);
+
+        Object point1 = new Object();
+        Object point2 = new Object();
+
+        when(mockF1.applyAsDouble(point1)).thenReturn(0.2);
+        when(mockF2.applyAsDouble(point1)).thenReturn(0.8);
+        when(mockF1.applyAsDouble(point2)).thenReturn(0.2);
+        when(mockF2.applyAsDouble(point2)).thenReturn(0.4);
+
+        List<Object> front = List.of(point1, point2);
+        double result = Utils.computeHyperVolume(front, mockF1, mockF2, 1.0, 1.0);
+        assertEquals(0.04, result, 1e-9, "Hypervolume for multiple points should be correctly calculated.");
+    }
 
     @Test
     public void testPointsOutsideRange() {
@@ -75,8 +92,8 @@ public class UtilsTest {
         Object point2 = new Object();
 
         when(mockF1.applyAsDouble(point1)).thenReturn(1.5); 
-        when(mockF2.applyAsDouble(point1)).thenReturn(0.5);
-        when(mockF1.applyAsDouble(point2)).thenReturn(0.5);
+        when(mockF2.applyAsDouble(point1)).thenReturn(2.5);
+        when(mockF1.applyAsDouble(point2)).thenReturn(-3.5);
         when(mockF2.applyAsDouble(point2)).thenReturn(-0.5); 
 
         List<Object> front = List.of(point1, point2);
