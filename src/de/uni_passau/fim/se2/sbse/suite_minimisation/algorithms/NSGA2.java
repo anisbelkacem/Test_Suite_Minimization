@@ -36,7 +36,7 @@ public class NSGA2<T extends Chromosome<T>> implements GeneticAlgorithm<T> {
         double MutationRate = random.nextDouble();
         double crossoverRate = random.nextDouble();
         BiMutation mutation = new BiMutation(0.2); 
-        BiCrossover crossover = new BiCrossover(0.95);
+        BiCrossover crossover = new BiCrossover(0.99);
         stoppingCondition.notifySearchStarted();
         List<T> population = initializePopulation(100,mutation,crossover,lenchromosome); 
         stoppingCondition.notifyFitnessEvaluations((int)population.size());
