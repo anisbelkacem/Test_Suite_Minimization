@@ -28,8 +28,6 @@ class TestSuiteSizeFitnessFunctionTest {
         when(chromosome.getTestCases()).thenReturn(Arrays.asList(1, 1, 1, 1));
 
         double fitness = fitnessFunction.applyAsDouble(chromosome);
-
-        // All test cases are active
         assertEquals(1.0, fitness, "Fitness should be 1.0 when all test cases are active");
     }
 
@@ -39,8 +37,6 @@ class TestSuiteSizeFitnessFunctionTest {
         when(chromosome.getTestCases()).thenReturn(Arrays.asList(1, 0, 0, 0));
 
         double fitness = fitnessFunction.applyAsDouble(chromosome);
-
-        // No active test cases
         assertEquals(0.0, fitness, "Fitness should be 0.0 when no test cases are active");
     }
 
@@ -50,8 +46,6 @@ class TestSuiteSizeFitnessFunctionTest {
         when(chromosome.getTestCases()).thenReturn(Arrays.asList(1, 0, 1, 0));
 
         double fitness = fitnessFunction.applyAsDouble(chromosome);
-
-        // Two out of four test cases are active
         assertEquals(0.5, fitness, "Fitness should be 0.5 when half of the test cases are active");
     }
 
@@ -61,8 +55,6 @@ class TestSuiteSizeFitnessFunctionTest {
         when(chromosome.getTestCases()).thenReturn(Arrays.asList());
 
         double fitness = fitnessFunction.applyAsDouble(chromosome);
-
-        // No test cases in the suite
         assertEquals(0.0, fitness, "Fitness should be 0.0 when the test suite is empty");
     }
 
@@ -72,8 +64,6 @@ class TestSuiteSizeFitnessFunctionTest {
         when(chromosome.getTestCases()).thenReturn(Arrays.asList(0, 1, 0, 1, 0));
 
         double fitness = fitnessFunction.applyAsDouble(chromosome);
-
-        // Two out of five test cases are active
         assertEquals(0.4, fitness, "Fitness should be 0.4 when two out of five test cases are active");
     }
 }

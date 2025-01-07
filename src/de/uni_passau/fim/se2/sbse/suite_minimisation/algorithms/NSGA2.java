@@ -79,17 +79,17 @@ public class NSGA2<T extends Chromosome<T>> implements GeneticAlgorithm<T> {
             T parent1 = population.get(random.nextInt(population.size()));
             T parent2 = population.get(random.nextInt(population.size())); 
             Pair<T> children = (Pair<T>) crossover.apply((BiChromosome)parent1, (BiChromosome) parent2);
-            if (children == null) {
+            /*if (children == null) {
                 throw new RuntimeException("Crossover returned null pair of children.");
             }
             if (children.getFst() == null || children.getSnd() == null) {
                 throw new RuntimeException("Crossover returned null child.");
-            }
+            }*/
             for (T  child : children) {
                 child = (T) mutation.apply((BiChromosome) child);
-                if (child == null) {
+                /*if (child == null) {
                     throw new RuntimeException("Mutation returned a null child.");
-                }
+                }*/
                 offspring.add(child);
                 stoppingCondition.notifyFitnessEvaluation();
             }

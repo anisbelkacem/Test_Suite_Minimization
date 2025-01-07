@@ -44,8 +44,6 @@ class CoverageFitnessFunctionTest {
         when(chromosome.getActiveTestCases()).thenReturn(Arrays.asList(0, 1));
 
         double fitness = fitnessFunction.applyAsDouble(chromosome);
-
-        // Lines 0, 1, and 2 are covered by test cases 0 and 1
         assertEquals(1.0, fitness, "Fitness should be 1.0 when all lines are covered using a subset of test cases");
     }
 
@@ -54,8 +52,6 @@ class CoverageFitnessFunctionTest {
         when(chromosome.getActiveTestCases()).thenReturn(Arrays.asList());
 
         double fitness = fitnessFunction.applyAsDouble(chromosome);
-
-        // No lines are covered
         assertEquals(0.0, fitness, "Fitness should be 0.0 when no test cases are active");
     }
 
@@ -64,8 +60,6 @@ class CoverageFitnessFunctionTest {
         when(chromosome.getActiveTestCases()).thenReturn(Arrays.asList(0));
 
         double fitness = fitnessFunction.applyAsDouble(chromosome);
-
-        // Lines 0 and 2 are covered by test case 0
         assertEquals(2.0 / 3.0, fitness, 0.0001, "Fitness should reflect the proportion of covered lines");
     }
 
@@ -76,8 +70,6 @@ class CoverageFitnessFunctionTest {
         when(chromosome.getActiveTestCases()).thenReturn(Arrays.asList(0));
 
         double fitness = fitnessFunction.applyAsDouble(chromosome);
-
-        // No lines to cover
         assertEquals(0.0, fitness, "Fitness should be 0.0 when there are no lines to cover");
     }
 }

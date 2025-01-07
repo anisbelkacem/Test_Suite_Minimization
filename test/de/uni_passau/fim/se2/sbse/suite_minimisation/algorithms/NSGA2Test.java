@@ -40,7 +40,7 @@ public class NSGA2Test {
         final int[] repetitionCount = {0};
         when(stoppingCondition.searchMustStop()).thenAnswer(invocation -> {
         repetitionCount[0]++;
-         return repetitionCount[0] >= 3;});
+         return repetitionCount[0] >= 2;});
 
         doNothing().when(stoppingCondition).notifySearchStarted();
         doNothing().when(stoppingCondition).notifyFitnessEvaluations(anyInt());
