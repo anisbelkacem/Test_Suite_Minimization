@@ -60,7 +60,7 @@ public class Utils {
      * @implSpec In the implementation of this method you might need to cast or use raw types, too.
      */
 
-     @SuppressWarnings({"rawtypes", "unchecked"})
+    @SuppressWarnings({"rawtypes", "unchecked"})
     public static double computeHyperVolume(
             final List front,
             final FitnessFunction f1,

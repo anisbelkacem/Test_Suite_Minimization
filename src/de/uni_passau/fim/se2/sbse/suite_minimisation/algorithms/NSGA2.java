@@ -37,27 +37,11 @@ public class NSGA2<T extends Chromosome<T>> implements GeneticAlgorithm<T> {
         double crossoverRate = random.nextDouble();
         BiMutation mutation = new BiMutation(0.1); 
         BiCrossover crossover = new BiCrossover(0.95);
-        BinaryTournamentSelection selection = new BinaryTournamentSelection(
-        (c1, c2) -> {
-        BiChromosome chrom1 = (BiChromosome) c1;
-        BiChromosome chrom2 = (BiChromosome) c2;
-
-        double f1_1 = coverageFF.applyAsDouble(chrom1);
-        double f1_2 = coverageFF.applyAsDouble(chrom2);
-        if (Double.compare(f1_1, f1_2) != 0) {
-            return Double.compare(f1_1, f1_2); 
-        }
-        double f2_1 = sizeFF.applyAsDouble(chrom1);
-        double f2_2 = sizeFF.applyAsDouble(chrom2);
-        return Double.compare(f2_2, f2_1);
-            }, 
-            random
-        );
         stoppingCondition.notifySearchStarted();
         List<T> population = initializePopulation(100,mutation,crossover,lenchromosome); 
         stoppingCondition.notifyFitnessEvaluations((int)population.size());
         while (!stoppingCondition.searchMustStop()) {
-            List<T> offspring = generateOffspring(population,selection,mutation,crossover);
+            List<T> offspring = generateOffspring(population,mutation,crossover);
             population.addAll(offspring);
             List<List<T>> paretoFronts = nonDominatedSorting(population);
             List<T> PFront = new ArrayList<>();
@@ -89,23 +73,23 @@ public class NSGA2<T extends Chromosome<T>> implements GeneticAlgorithm<T> {
     }
 
     @SuppressWarnings("unchecked")
-    private List<T> generateOffspring(List<T> population , BinaryTournamentSelection selection ,BiMutation mutation,BiCrossover crossover) {
+    private List<T> generateOffspring(List<T> population  ,BiMutation mutation,BiCrossover crossover) {
         List<T> offspring = new ArrayList<>();
         while (offspring.size() < population.size()) {
             T parent1 = population.get(random.nextInt(population.size()));
             T parent2 = population.get(random.nextInt(population.size())); 
             Pair<T> children = (Pair<T>) crossover.apply((BiChromosome)parent1, (BiChromosome) parent2);
-            if (children == null) {
+            /*if (children == null) {
                 throw new RuntimeException("Crossover returned null pair of children.");
             }
             if (children.getFst() == null || children.getSnd() == null) {
                 throw new RuntimeException("Crossover returned null child.");
-            }
+            }*/
             for (T  child : children) {
                 child = (T) mutation.apply((BiChromosome) child);
-                if (child == null) {
+                /*if (child == null) {
                     throw new RuntimeException("Mutation returned a null child.");
-                }
+                }*/
                 offspring.add(child);
                 stoppingCondition.notifyFitnessEvaluation();
             }
