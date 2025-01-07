@@ -4,18 +4,9 @@ import de.uni_passau.fim.se2.sbse.suite_minimisation.algorithms.GeneticAlgorithm
 import de.uni_passau.fim.se2.sbse.suite_minimisation.algorithms.NSGA2;
 import de.uni_passau.fim.se2.sbse.suite_minimisation.algorithms.RandomSearch;
 import de.uni_passau.fim.se2.sbse.suite_minimisation.algorithms.SearchAlgorithmType;
-import de.uni_passau.fim.se2.sbse.suite_minimisation.chromosomes.BiChromosome;
 import de.uni_passau.fim.se2.sbse.suite_minimisation.chromosomes.Chromosome;
-import de.uni_passau.fim.se2.sbse.suite_minimisation.crossover.Crossover;
-import de.uni_passau.fim.se2.sbse.suite_minimisation.crossover.BiCrossover;
 import de.uni_passau.fim.se2.sbse.suite_minimisation.fitness_functions.*;
-import de.uni_passau.fim.se2.sbse.suite_minimisation.mutation.Mutation;
-import de.uni_passau.fim.se2.sbse.suite_minimisation.mutation.BiMutation;
-import de.uni_passau.fim.se2.sbse.suite_minimisation.selection.BinaryTournamentSelection;
-import de.uni_passau.fim.se2.sbse.suite_minimisation.selection.Selection;
 import de.uni_passau.fim.se2.sbse.suite_minimisation.stopping_conditions.StoppingCondition;
-
-import java.util.Comparator;
 import java.util.Random;
 
 public class AlgorithmBuilder {
